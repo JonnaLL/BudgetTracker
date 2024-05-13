@@ -1,5 +1,6 @@
 package com.sdacademy.budgettracker.entity;
 
+import com.sdacademy.budgettracker.entity.User;
 import jakarta.persistence.*;
 import lombok.Data;
 
