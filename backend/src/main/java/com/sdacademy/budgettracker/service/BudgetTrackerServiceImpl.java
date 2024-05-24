@@ -7,7 +7,6 @@ import com.sdacademy.budgettracker.dto.BudgetTrackerRecordDTO;
 import com.sdacademy.budgettracker.entity.Expense;
 import com.sdacademy.budgettracker.entity.Income;
 import com.sdacademy.budgettracker.entity.Savings;
-import com.sdacademy.budgettracker.entity.User;
 import com.sdacademy.budgettracker.repository.ExpenseRepository;
 import com.sdacademy.budgettracker.repository.IncomeRepository;
 import com.sdacademy.budgettracker.repository.SavingsRepository;
@@ -17,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BudgetTrackerServiceImpl implements BudgetTrackerService {
@@ -69,8 +69,7 @@ public class BudgetTrackerServiceImpl implements BudgetTrackerService {
         userService.registerUser(username, email, password);
     }
 
-    @Override
-    public void enterInitialIncome(double totalIncome, Long userId) {
+    public void enterInitialIncome(Double totalIncome, Double userId) {
         Income income = new Income();
         income.setAmount(totalIncome);
         income.setUser(userService.getCurrentUser(userId));
@@ -78,7 +77,7 @@ public class BudgetTrackerServiceImpl implements BudgetTrackerService {
     }
 
     @Override
-    public void setSavingsGoal(double goalPercentage, Long userId) {
+    public void setSavingsGoal(double goalPercentage, Double userId) {
         Savings savings = new Savings();
         savings.setSavingsGoalPercentage(goalPercentage);
         savings.setUser(userService.getCurrentUser(userId));
@@ -86,12 +85,12 @@ public class BudgetTrackerServiceImpl implements BudgetTrackerService {
     }
 
     @Override
-    public double getTotalIncome(Long userId) {
+    public Double getTotalIncome(Double userId) {
         return incomeRepository.findTotalIncomeByUserId(userId).orElse(0.0);
     }
 
     @Override
-    public double calculateTotalExpenses(Long userId) {
+    public Double calculateTotalExpenses(Double userId) {
         return expenseRepository.findTotalExpensesByUserId(userId).orElse(0.0);
     }
 
@@ -108,7 +107,7 @@ public class BudgetTrackerServiceImpl implements BudgetTrackerService {
     }
 
     @Override
-    public void checkSavingsStatus(Long userId) {
+    public void checkSavingsStatus(Double userId) {
         double totalIncome = getTotalIncome(userId);
         double totalExpenses = calculateTotalExpenses(userId);
         double savingsPercentage = 100 - (totalExpenses * 100 / totalIncome);
@@ -120,10 +119,10 @@ public class BudgetTrackerServiceImpl implements BudgetTrackerService {
     }
 
     @Override
-    public void getOverviewOfExpenses(Long userId) {
+    public Object getOverviewOfExpenses(Double userId) {
         List<Expense> expenses = expenseRepository.findAllByUserId(userId);
-        expenses.forEach(expense -> {
-            System.out.println("Category: " + expense.getCategory() + ", Amount: " + expense.getAmount());
-        });
+        return expenses.stream()
+                .map(expense -> "Category: " + expense.getCategory() + ", Amount: " + expense.getAmount())
+                .collect(Collectors.toList());
     }
 }

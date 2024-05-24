@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface IncomeRepository extends JpaRepository<Income, Long> {
     @Query("SELECT SUM(i.amount) FROM Income i WHERE i.user.id = :userId")
-    Optional<Double> findTotalIncomeByUserId(@Param("userId") Long userId);
+    Optional<Double> findTotalIncomeByUserId(@Param("userId") Double userId);
 }

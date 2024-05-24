@@ -6,12 +6,12 @@ public interface BudgetTrackerService {
     void createRecord(BudgetTrackerRecordDTO recordDTO);
     void login(String username, String password);
     void registerUser(String username, String email, String password);
-    void enterInitialIncome(double totalIncome, Long userId);
-    void setSavingsGoal(double goalPercentage, Long userId);
-    double getTotalIncome(Long userId);
-    double calculateTotalExpenses(Long userId);
+    void enterInitialIncome(Double totalIncome, Double userId);
+    void setSavingsGoal(double goalPercentage, Double userId);
+    Double getTotalIncome(Double userId);
+    Double calculateTotalExpenses(Double userId);
     void addExpense(BudgetTrackerRecordDTO recordDTO);
     void addAdditionalIncome(BudgetTrackerRecordDTO recordDTO);
-    void checkSavingsStatus(Long userId);
-    void getOverviewOfExpenses(Long userId);
+    void checkSavingsStatus(Double userId);
+    Object getOverviewOfExpenses(Double userId);
 }

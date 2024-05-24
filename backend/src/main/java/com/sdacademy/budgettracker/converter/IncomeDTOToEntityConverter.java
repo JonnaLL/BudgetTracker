@@ -10,7 +10,6 @@ public class IncomeDTOToEntityConverter {
     public Income convert(BudgetTrackerRecordDTO dto) {
         Income income = new Income();
         income.setAmount(dto.getAmount());
-        // Map or set other properties as needed
         return income;
     }
 }
