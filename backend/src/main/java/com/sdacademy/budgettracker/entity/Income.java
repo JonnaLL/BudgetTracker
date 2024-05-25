@@ -1,21 +1,24 @@
 package com.sdacademy.budgettracker.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-
+import lombok.*;
 
 @Data
 @Entity
+@Getter
+@Setter
+
 @Table(name = "Income")
 public class Income {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Double id;
 
-    @Column(name = "amount")
-    private double amount;
+    @Column(name = "amount", nullable = false)
+    private Double amount;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
 }
