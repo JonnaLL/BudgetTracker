@@ -8,7 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 
-@Table(name = "Savings")
+@Table(name = "savings_goal_percentage")
 public class Savings {
 
     @Id

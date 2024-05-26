@@ -29,3 +29,9 @@ CREATE TABLE IF NOT EXISTS savings_goal_percentage (
     savings_goal_percentage DOUBLE,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+CREATE TABLE IF NOT EXISTS motivating_message (
+     message_id INT AUTO_INCREMENT PRIMARY KEY,
+     message_content TEXT NOT NULL,
+     author VARCHAR(255) NOT NULL
+);

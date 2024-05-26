@@ -12,7 +12,7 @@ import lombok.*;
 public class Income {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Double id;
+    private Long id;
 
     @Column(name = "amount", nullable = false)
     private Double amount;
