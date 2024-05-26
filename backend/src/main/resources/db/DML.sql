@@ -1,4 +1,4 @@
-#DML
+# DML
 INSERT INTO motivating_message(message_content, author)
 VALUES ('A wise person should have money in their head, but not in their heart', 'Jonathan Swift');
        ('Believe you can and you’re halfway there', 'Theodore Roosevelt');
