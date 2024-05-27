@@ -1,0 +1,4 @@
+<h2>Overview</h2>
+<div *ngFor="let transaction of transactions">
+  <p>{{ transaction.description }}: {{ transaction.amount | currency }}</p>
+</div>
