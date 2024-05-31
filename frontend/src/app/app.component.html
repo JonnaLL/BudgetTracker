@@ -1,10 +1,14 @@
-<mat-toolbar color="primary">
-  <img
-    alt="Angular Logo"
-    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg=="
-  />
-  <button mat-button routerLink="universities">Universities</button>
-  <button mat-button routerLink="study-programs">Study Programs</button>
-</mat-toolbar>
-
-<router-outlet />
+<div *ngIf="!isFormPage" class="landing-page">
+  <div class="content">
+    <h1>Welcome to Budget Tracker</h1>
+    <p class="intro-text">Take control of your finances. Start saving smart and track your expenses effectively.</p>
+    <blockquote class="quote">"A penny saved is a penny earned." - Benjamin Franklin</blockquote>
+    <div class="action-buttons">
+      <button class="action-button action-button-primary" [routerLink]="['/register']">Register</button>
+      <button class="action-button action-button-secondary" [routerLink]="['/login']">Log In</button>
+    </div>
+  </div>
+</div>
+<div *ngIf="isFormPage">
+  <router-outlet></router-outlet>
+</div>

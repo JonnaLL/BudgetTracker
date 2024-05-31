@@ -1,6 +1,15 @@
-<h2>Dashboard</h2>
 <div>
-  <p>Total Income: {{ totalIncome | currency }}</p>
-  <p>Total Expenses: {{ totalExpenses | currency }}</p>
-  <p>Net Balance: {{ netBalance | currency }}</p>
+  <h1>User Dashboard</h1>
+  <form [formGroup]="userDataForm" (ngSubmit)="onSubmit()"> 
+    <div>
+      <label for="initialIncome">Initial Income:</label>
+      <input id="initialIncome" formControlName="initialIncome" type="number" /> 
+    </div>
+    <div>
+      <label for="savingsGoal">Savings Goal (%):</label>
+      <input id="savingsGoal" formControlName="savingsGoal" type="number" /> 
+    </div>
+    <button type="submit">Update</button>
+  </form>
+  <div id="message" #message></div>
 </div>

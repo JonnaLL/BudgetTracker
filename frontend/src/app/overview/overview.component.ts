@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BudgetService } from '../services/budget.service';
+import { BudgetService } from '../../services/budget.service';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
