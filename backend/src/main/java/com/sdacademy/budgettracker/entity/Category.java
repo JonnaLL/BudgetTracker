@@ -17,12 +17,13 @@ public class Category {
     private Long id;
     private String name;
 
-@OneToMany(mappedBy = "category")
-private List<Expense> expenses;
+    @OneToMany(mappedBy = "category")
+    private List<Expense> expenses;
 
-public Category() {}
+    public Category() {
+    }
 
-    public Category(String name){
-    this.name = name;
+    public Category(String name) {
+        this.name = name;
     }
 }

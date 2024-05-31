@@ -50,3 +50,15 @@ VALUES ('A wise person should have money in their head, but not in their heart',
        ('Too many people measure how successful they are by how much money they make or the people that they associate with. In my opinion, true success should be measured by how happy you are','Richard Branson'),
        ('Disneyland is a work of love. We did not go into Disneyland just with the idea of making money','Walt Disney'),
        ('Do not focus on money, instead focus on a problem that needs to be solved for the world. Money will follow you as a bi-product','Manoj Arora');
+
+INSERT INTO category (name)
+VALUES ('Food'),
+       ('Taxes'),
+       ('Entertainment'),
+       ('Clothing'),
+       ('MedicalHealthcare'),
+       ('HouseholdItems'),
+       ('Transportation'),
+       ('Gifts'),
+       ('Donations'),
+       ('Other');
