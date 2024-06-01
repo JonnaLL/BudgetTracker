@@ -1,13 +1,16 @@
 package com.sdacademy.budgettracker.controller;
 
+import com.sdacademy.budgettracker.converter.UserDTOToEntityConverter;
+import com.sdacademy.budgettracker.dto.BudgetTrackerRecordDTO;
+import com.sdacademy.budgettracker.entity.User;
 import com.sdacademy.budgettracker.service.BudgetTrackerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/security")
@@ -16,23 +19,36 @@ public class SecurityController {
     @Autowired
     private BudgetTrackerService budgetTrackerService;
 
+    @Autowired
+    private UserDTOToEntityConverter userDTOToEntityConverter;
+
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> loginData) {
+        String username = loginData.get("username");
+        String password = loginData.get("password");
         try {
             budgetTrackerService.login(username, password);
-            return ResponseEntity.ok("Login successful! Welcome, " + username + "!");
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Login successful! Welcome, " + username + "!");
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password. Please try again.");
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Invalid username or password. Please try again.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestParam String username, @RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<Map<String, String>> registerUser(@RequestBody BudgetTrackerRecordDTO userDTO) {
+        Map<String, String> response = new HashMap<>();
         try {
-            budgetTrackerService.registerUser(username, email, password);
-            return ResponseEntity.ok("User registered successfully!");
+            User user = userDTOToEntityConverter.convert(userDTO);
+            budgetTrackerService.registerUser(user);
+            response.put("message", "User registered successfully!");
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to register user: " + e.getMessage());
+            response.put("message", "Failed to register user: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
 }
