@@ -8,9 +8,9 @@ CREATE TABLE IF NOT EXISTS user (
 
 CREATE TABLE IF NOT EXISTS expense (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    category_id BIGINT,
-    amount DOUBLE,
-    date VARCHAR(255),
+    category_id BIGINT NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    date DATE NOT NULL,
     description VARCHAR(255),
     user_id BIGINT,
     FOREIGN KEY (user_id) REFERENCES users(id)

@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @Entity
 
-@Table(name = "Category")
+@Table(name = "category")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

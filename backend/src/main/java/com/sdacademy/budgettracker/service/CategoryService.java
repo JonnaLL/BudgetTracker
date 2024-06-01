@@ -27,5 +27,4 @@ public class CategoryService {
             throw new Exception("Failed to add category: " + e.getMessage());
         }
     }
-
 }
