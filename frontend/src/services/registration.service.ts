@@ -9,7 +9,7 @@ export class RegistrationService {
 
   constructor(private http: HttpClient) { }
 
-  private apiUrl = '/api/security/register';
+  private apiUrl = 'http://localhost:8080/api/security/register';
 
   registerUser(username: string, email: string, password: string): Observable<any> {
     return this.http.post<any>(this.apiUrl, { username, email, password });

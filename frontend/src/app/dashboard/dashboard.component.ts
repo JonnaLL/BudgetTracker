@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,9 +11,10 @@ import { Router } from '@angular/router';
 export class DashboardComponent implements OnInit {
   userDataForm: FormGroup;
   @ViewChild('message', { static: true }) message!: ElementRef;
-  userId: number = 1; 
+  userId: number = 1; // Assuming you have a way to get the user ID
+  welcomeMessage: string = ''; // Define welcomeMessage property here
 
-  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
+  constructor(private fb: FormBuilder, private userService: UserService, private router: Router, private route: ActivatedRoute) {
     this.userDataForm = this.fb.group({
       initialIncome: ['', Validators.required],
       savingsGoal: ['', Validators.required]
@@ -21,11 +22,20 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      const username = params['username'];
+      if (username) {
+        // Display a welcome message if username is passed as query parameter
+        this.welcomeMessage = `Welcome, ${username}!`;
+      }
+    });
     this.fetchUserData();
   }
 
   fetchUserData() {
+    console.log('Fetching user data...');
     this.userService.getUserData(this.userId).subscribe(userData => {
+      console.log('User data retrieved:', userData);
       this.userDataForm.patchValue({
         initialIncome: userData.initialIncome,
         savingsGoal: userData.savingsGoal

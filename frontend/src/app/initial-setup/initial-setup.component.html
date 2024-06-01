@@ -1,0 +1,16 @@
+<div class="container">
+    <h1>Initial Setup</h1>
+    <form [formGroup]="setupForm" (ngSubmit)="onSubmit()">
+      <div class="input-section">
+        <label for="initialIncome">Initial Income:</label>
+        <input id="initialIncome" formControlName="initialIncome" type="number" />
+      </div>
+      <div class="input-section">
+        <label for="savingsGoal">Savings Goal (%):</label>
+        <input id="savingsGoal" formControlName="savingsGoal" type="number" />
+      </div>
+      <button type="submit">Save</button>
+    </form>
+    <div #message></div>
+  </div>
+  

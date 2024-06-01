@@ -1,20 +1,30 @@
-import { Component } from '@angular/core';
-import { Router, Event, NavigationEnd } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd, Event } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'BudgetTracker';
-  isFormPage = false;
+  isFormPage: boolean = false;
 
-  constructor(private router: Router) {
+  constructor(private authService: AuthService, private router: Router) {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
-        this.isFormPage = event.url === '/register' || event.url === '/login';
+        this.isFormPage = event.url.includes('/register') || event.url.includes('/login') || event.url.includes('/initial-setup') || event.url.includes('/welcome');
+        console.log('isFormPage:', this.isFormPage);
         this.scrollToTop();
+      }
+    });
+  }
+
+  ngOnInit(): void {
+    this.authService.isLoggedIn().subscribe(isLoggedIn => {
+      if (isLoggedIn) {
+        this.router.navigate(['/dashboard']);
       }
     });
   }

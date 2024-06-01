@@ -1,7 +1,7 @@
 <div class="form-page">
   <div class="form-container">
     <h2>Log In</h2>
-    <form (submit)="login()">
+    <form (ngSubmit)="login()">
       <div class="form-group">
         <label for="username">Username</label>
         <input type="text" id="username" name="username" [(ngModel)]="username" required>
@@ -13,5 +13,6 @@
       <button type="submit">Log In</button>
       <button type="button" (click)="goBack()">Back</button>
     </form>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
   </div>
 </div>

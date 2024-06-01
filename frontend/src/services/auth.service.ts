@@ -12,7 +12,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string): Observable<any> {
-    return this.http.post<any>('/api/security/login', { username, password }).pipe(
+    return this.http.post<any>('http://localhost:8080/api/security/login', { username, password }).pipe(
       tap(() => {
         this.loggedIn.next(true);
       })
