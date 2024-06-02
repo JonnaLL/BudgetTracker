@@ -1,0 +1,11 @@
+/* welcome.component.css */
+.welcome-container {
+    text-align: center;
+    padding: 50px;
+  }
+  
+  blockquote {
+    font-size: 1.5em;
+    margin: 20px 0;
+  }
+  
