@@ -8,16 +8,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class WelcomeComponent implements OnInit {
   username: string = '';
+  userId: number | null = null;
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.username = params['username'];
+      this.userId = +params['userId'];
     });
   }
 
   onProceed(): void {
-    this.router.navigate(['/initial-setup']);
+    if (this.userId !== null) {
+      this.router.navigate(['/initial-setup'], { queryParams: { userId: this.userId } });
+    }
   }
 }

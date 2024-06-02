@@ -1,7 +1,7 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../../services/user.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BudgetService } from '../../services/budget.service';
 
 @Component({
   selector: 'app-initial-setup',
@@ -9,35 +9,81 @@ import { Router } from '@angular/router';
   styleUrls: ['./initial-setup.component.css']
 })
 export class InitialSetupComponent implements OnInit {
-  setupForm: FormGroup;
-  @ViewChild('message', { static: true }) message!: ElementRef;
-  userId: number = 1; 
+  incomeForm: FormGroup;
+  savingsForm: FormGroup;
+  incomeErrorMessage: string = '';
+  incomeSuccessMessage: string = '';
+  savingsErrorMessage: string = '';
+  savingsSuccessMessage: string = '';
+  userId: number | null = null;
+  incomeSubmitted: boolean = false;
+  savingsSubmitted: boolean = false;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
-    this.setupForm = this.fb.group({
-      initialIncome: ['', Validators.required],
-      savingsGoal: ['', Validators.required]
+  constructor(
+    private fb: FormBuilder,
+    private budgetService: BudgetService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.incomeForm = this.fb.group({
+      initialIncome: [null, [Validators.required, Validators.min(0)]]
+    });
+
+    this.savingsForm = this.fb.group({
+      savingsGoal: [null, [Validators.required, Validators.min(0), Validators.max(100)]]
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.userId = +params['userId'];
+    });
+  }
 
-  onSubmit() {
-    if (this.setupForm.valid) {
-      const income = this.setupForm.get('initialIncome')?.value;
-      const savingsGoal = this.setupForm.get('savingsGoal')?.value;
-
-      this.userService.enterInitialIncome(income, this.userId).subscribe(response => {
-        this.message.nativeElement.innerHTML = "<div id='success'>Income saved successfully!</div>";
-      }, error => {
-        this.message.nativeElement.innerHTML = "<div id='error'>Error saving income. Please try again later.</div>";
+  onSubmitIncome(): void {
+    this.incomeErrorMessage = '';
+    this.incomeSuccessMessage = '';
+    if (this.incomeForm.valid && this.userId !== null) {
+      const initialIncome = this.incomeForm.controls['initialIncome'].value;
+      this.budgetService.enterInitialIncome(initialIncome, this.userId).subscribe({
+        next: response => {
+          console.log('Response from server:', response);
+          this.incomeSuccessMessage = response.message;
+          this.incomeSubmitted = true;
+          this.incomeForm.controls['initialIncome'].disable();
+        },
+        error: error => {
+          console.log('Error from server:', error);
+          this.incomeErrorMessage = error.error.message || 'Failed to save income';
+        }
       });
-
-      this.userService.setSavingsGoal(savingsGoal, this.userId).subscribe(response => {
-        this.message.nativeElement.innerHTML = `<div id='success'>Savings goal percentage saved successfully! With your savings goal, you'll be able to save ${response} euros monthly! That's great!</div>`;
-      }, error => {
-        this.message.nativeElement.innerHTML = "<div id='error'>Error saving savings goal. Please try again later.</div>";
-      });
+    } else {
+      this.incomeErrorMessage = 'Please fill out the initial income correctly.';
     }
+  }
+
+  onSubmitSavingsGoal(): void {
+    this.savingsErrorMessage = '';
+    this.savingsSuccessMessage = '';
+    if (this.savingsForm.valid && this.userId !== null) {
+      const savingsGoal = this.savingsForm.controls['savingsGoal'].value;
+      this.budgetService.setSavingsGoal(savingsGoal, this.userId).subscribe({
+        next: response => {
+          console.log('Response from server:', response);
+          this.savingsSuccessMessage = response.message;
+          this.savingsSubmitted = true;
+        },
+        error: error => {
+          console.log('Error from server:', error);
+          this.savingsErrorMessage = error.error.message || 'Failed to set savings goal';
+        }
+      });
+    } else {
+      this.savingsErrorMessage = 'Please fill out the savings goal percentage correctly.';
+    }
+  }
+
+  onStart(): void {
+    this.router.navigate(['/dashboard']);
   }
 }

@@ -5,17 +5,17 @@ import { RegisterComponent } from './register/register.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { LoginComponent } from './login/login.component';
 import { InitialSetupComponent } from './initial-setup/initial-setup.component';
+import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './guards/auth.guard';
-import { AppComponent } from './app.component';
 
 const routes: Routes = [
-  { path: '', component: AppComponent },
+  { path: '', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'welcome', component: WelcomeComponent, canActivate: [AuthGuard] },
   { path: 'initial-setup', component: InitialSetupComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: '**', redirectTo: '' } 
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

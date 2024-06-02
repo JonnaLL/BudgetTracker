@@ -1,4 +1,4 @@
-<div *ngIf="!isFormPage" class="landing-page">
+<div *ngIf="isHomePage" class="landing-page">
   <div class="content">
     <h1>Welcome to Budget Tracker</h1>
     <p class="intro-text">Take control of your finances. Start saving smart and track your expenses effectively.</p>
@@ -9,6 +9,6 @@
     </div>
   </div>
 </div>
-<div *ngIf="isFormPage">
+<div *ngIf="!isHomePage">
   <router-outlet></router-outlet>
 </div>

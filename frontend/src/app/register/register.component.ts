@@ -20,20 +20,20 @@ export class RegisterComponent {
   }
 
   register(): void {
-    console.log('Registering user...');
+    if (!this.username || !this.email || !this.password) {
+      this.errorMessage = 'All fields are required';
+      return;
+    }
+
     this.registrationService.registerUser(this.username, this.email, this.password).subscribe({
-      next: () => {
-        console.log('Registration successful!');
-        // Redirect to the welcome component after successful registration
-        this.router.navigate(['/welcome'], { queryParams: { username: this.username } })
-          .then(() => console.log('Navigated to dashboard'))
-          .catch(error => console.error('Navigation error:', error));
+      next: (response) => {
+        const userId = response.userId; // Ensure backend returns userId
+        this.router.navigate(['/welcome'], { queryParams: { userId: userId } });
       },
       error: error => {
-        console.error('Registration failed:', error);
-        this.errorMessage = error.message;
+        this.errorMessage = error.error.message || 'Registration failed';
       }
-    }
-    );
+    });
   }
 }
+

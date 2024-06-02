@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { BudgetService } from '../../services/budget.service';
-
 
 @Component({
   selector: 'app-add-expense',
@@ -8,15 +6,12 @@ import { BudgetService } from '../../services/budget.service';
   styleUrls: ['./add-expense.component.css']
 })
 export class AddExpenseComponent {
-  amount: number = 0;
   description: string = '';
+  amount: number = 0;
 
-  constructor(private budgetService: BudgetService) {}
+  constructor() { }
 
-  addExpense() {
-    this.budgetService.addExpense(this.amount, this.description);
-    this.amount = 0;
-    this.description = '';
+  addExpense(): void {
+    console.log(`Description: ${this.description}, Amount: ${this.amount}`);
   }
 }
-
