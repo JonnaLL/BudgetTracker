@@ -7,6 +7,7 @@ import com.sdacademy.budgettracker.dto.BudgetTrackerRecordDTO;
 import com.sdacademy.budgettracker.entity.Expense;
 import com.sdacademy.budgettracker.entity.Income;
 import com.sdacademy.budgettracker.entity.Savings;
+import com.sdacademy.budgettracker.entity.User;
 import com.sdacademy.budgettracker.repository.ExpenseRepository;
 import com.sdacademy.budgettracker.repository.IncomeRepository;
 import com.sdacademy.budgettracker.repository.SavingsRepository;
@@ -65,8 +66,8 @@ public class BudgetTrackerServiceImpl implements BudgetTrackerService {
     }
 
     @Override
-    public void registerUser(String username, String email, String password) {
-        userService.registerUser(username, email, password);
+    public void registerUser(User user) {
+        userRepository.save(user);
     }
 
     public void enterInitialIncome(Double totalIncome, Double userId) {

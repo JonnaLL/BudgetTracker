@@ -8,7 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 
-@Table(name = "Expense")
+@Table(name = "expense")
 public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

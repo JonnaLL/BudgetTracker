@@ -24,11 +24,7 @@ public class UserService {
         }
     }
 
-    public User registerUser(String username, String email, String password) {
-        User user = new User();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(password);
-        return userRepository.save(user);
+    public void registerUser(User user) {
+        userRepository.save(user);
     }
 }
