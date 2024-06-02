@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/budget")
@@ -20,38 +22,48 @@ public class BudgetTrackerController {
         budgetTrackerService.createRecord(recordDTO);
     }
 
-
     @PostMapping("/income")
-    public ResponseEntity<String> enterInitialIncome(@RequestParam Double totalIncome, @RequestParam Double userId) {
+    public ResponseEntity<Map<String, String>> enterInitialIncome(@Valid @RequestBody BudgetTrackerRecordDTO recordDTO) {
+        Map<String, String> response = new HashMap<>();
         try {
-            budgetTrackerService.enterInitialIncome(totalIncome, userId);
-            return ResponseEntity.ok("Income saved successfully!");
+            budgetTrackerService.enterInitialIncome(recordDTO.getAmount(), recordDTO.getUser().getId());
+            response.put("message", "Income saved successfully!");
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to save income: " + e.getMessage());
+            response.put("message", "Failed to save income: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
 
     @PostMapping("/savings")
-    public ResponseEntity<String> setSavingsGoal(@RequestParam Double goalPercentage, @RequestParam Double userId) {
+    public ResponseEntity<Map<String, String>> setSavingsGoal(@Valid @RequestBody BudgetTrackerRecordDTO recordDTO) {
+        Map<String, String> response = new HashMap<>();
         try {
-            budgetTrackerService.setSavingsGoal(goalPercentage, userId);
-            return ResponseEntity.ok("Savings goal percentage saved successfully! With your savings goal, you'll be able to save " + (budgetTrackerService.getTotalIncome(userId) * goalPercentage / 100) + " euros monthly! That's great!");
+            budgetTrackerService.setSavingsGoal(recordDTO.getSavingsGoalPercentage(), recordDTO.getUser().getId());
+            double totalSavings = budgetTrackerService.getTotalIncome(recordDTO.getUser().getId()) * recordDTO.getSavingsGoalPercentage() / 100;
+            response.put("message", "Savings goal percentage saved successfully! With your savings goal, you'll be able to save " + totalSavings + " euros monthly! That's great!");
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to save savings goal percentage: " + e.getMessage());
+            response.put("message", "Failed to save savings goal percentage: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
 
     @PostMapping("/expense")
-    public ResponseEntity<String> addExpense(@Valid @RequestBody BudgetTrackerRecordDTO recordDTO) {
+    public ResponseEntity<Map<String, String>> addExpense(@Valid @RequestBody BudgetTrackerRecordDTO recordDTO) {
+        Map<String, String> response = new HashMap<>();
         try {
             budgetTrackerService.addExpense(recordDTO);
-            return ResponseEntity.ok("Expense added successfully!");
+            response.put("message", "Expense added successfully!");
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to add expense: " + e.getMessage());
+            response.put("message", "Failed to add expense: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
+
     @GetMapping("/overview/{userId}")
-    public ResponseEntity<?> getOverview(@PathVariable Double userId) {
+    public ResponseEntity<?> getOverview(@PathVariable Long userId) {
         try {
             return ResponseEntity.ok(budgetTrackerService.getOverviewOfExpenses(userId));
         } catch (Exception e) {
@@ -59,4 +71,3 @@ public class BudgetTrackerController {
         }
     }
 }
-

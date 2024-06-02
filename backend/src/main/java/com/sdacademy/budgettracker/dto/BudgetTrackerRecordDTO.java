@@ -19,7 +19,7 @@ public class BudgetTrackerRecordDTO {
     private String category;
 
     @Positive(message = "Amount must be positive")
-    private double amount;
+    private Double amount;
 
     @NotBlank(message = "Date is mandatory")
     private String date;
@@ -29,6 +29,6 @@ public class BudgetTrackerRecordDTO {
     private String email;
     private String password;
     private Double savingsGoalPercentage;
-    private Double userId;
+    private Long userId;
 
 }

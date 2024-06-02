@@ -70,7 +70,7 @@ public class BudgetTrackerServiceImpl implements BudgetTrackerService {
         userRepository.save(user);
     }
 
-    public void enterInitialIncome(Double totalIncome, Double userId) {
+    public void enterInitialIncome(Double totalIncome, Long userId) {
         Income income = new Income();
         income.setAmount(totalIncome);
         income.setUser(userService.getCurrentUser(userId));
@@ -78,7 +78,7 @@ public class BudgetTrackerServiceImpl implements BudgetTrackerService {
     }
 
     @Override
-    public void setSavingsGoal(double goalPercentage, Double userId) {
+    public void setSavingsGoal(double goalPercentage, Long userId) {
         Savings savings = new Savings();
         savings.setSavingsGoalPercentage(goalPercentage);
         savings.setUser(userService.getCurrentUser(userId));
@@ -86,12 +86,12 @@ public class BudgetTrackerServiceImpl implements BudgetTrackerService {
     }
 
     @Override
-    public Double getTotalIncome(Double userId) {
+    public Double getTotalIncome(Long userId) {
         return incomeRepository.findTotalIncomeByUserId(userId).orElse(0.0);
     }
 
     @Override
-    public Double calculateTotalExpenses(Double userId) {
+    public Double calculateTotalExpenses(Long userId) {
         return expenseRepository.findTotalExpensesByUserId(userId).orElse(0.0);
     }
 
@@ -108,7 +108,7 @@ public class BudgetTrackerServiceImpl implements BudgetTrackerService {
     }
 
     @Override
-    public void checkSavingsStatus(Double userId) {
+    public void checkSavingsStatus(Long userId) {
         double totalIncome = getTotalIncome(userId);
         double totalExpenses = calculateTotalExpenses(userId);
         double savingsPercentage = 100 - (totalExpenses * 100 / totalIncome);
@@ -120,7 +120,7 @@ public class BudgetTrackerServiceImpl implements BudgetTrackerService {
     }
 
     @Override
-    public Object getOverviewOfExpenses(Double userId) {
+    public Object getOverviewOfExpenses(Long userId) {
         List<Expense> expenses = expenseRepository.findAllByUserId(userId);
         return expenses.stream()
                 .map(expense -> "Category: " + expense.getCategory() + ", Amount: " + expense.getAmount())
