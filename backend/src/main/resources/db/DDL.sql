@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS savings_goal_percentage (
 );
 
 CREATE TABLE IF NOT EXISTS motivating_message (
-     message_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-     message_content TEXT NOT NULL,
+     id BIGINT AUTO_INCREMENT PRIMARY KEY,
+     message TEXT NOT NULL,
      author VARCHAR(255) NOT NULL
 );

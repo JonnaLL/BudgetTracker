@@ -7,12 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-
 @Table(name = "motivating_message")
 public class MotivatingMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long message_id;
+    private Long id;
     private String message;
     private String author;
 }

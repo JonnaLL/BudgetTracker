@@ -1,5 +1,6 @@
 package com.sdacademy.budgettracker.controller;
 
+import com.sdacademy.budgettracker.dto.MotivatingMessageDTO;
 import com.sdacademy.budgettracker.entity.MotivatingMessage;
 import com.sdacademy.budgettracker.service.MotivatingMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,8 @@ public class MotivatingMessageController {
     @Autowired
     private MotivatingMessageService service;
 
-    @GetMapping("/extra")
-    public MotivatingMessage getExtraMotivation() {
+    @GetMapping("/random-message")
+    public MotivatingMessageDTO getRandomMessage() {
         return service.getRandomMessage();
     }
 }
