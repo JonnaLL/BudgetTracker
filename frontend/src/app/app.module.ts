@@ -10,10 +10,11 @@ import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { InitialSetupComponent } from './initial-setup/initial-setup.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { HomeComponent } from './home/home.component';  
 
-import { AuthGuard } from './guards/auth.guard';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
+import { AddExpenseComponent } from './add-expense/add-expense.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,9 @@ import { UserService } from '../services/user.service';
     RegisterComponent,
     DashboardComponent,
     InitialSetupComponent,
-    WelcomeComponent
+    AddExpenseComponent,
+    WelcomeComponent,
+    HomeComponent  
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,7 @@ import { UserService } from '../services/user.service';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [AuthService, UserService, AuthGuard],
+  providers: [AuthService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

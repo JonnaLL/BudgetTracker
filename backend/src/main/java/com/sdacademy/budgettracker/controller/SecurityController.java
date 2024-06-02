@@ -26,29 +26,30 @@ public class SecurityController {
     public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> loginData) {
         String username = loginData.get("username");
         String password = loginData.get("password");
+        Map<String, String> response = new HashMap<>();
         try {
             budgetTrackerService.login(username, password);
-            Map<String, String> response = new HashMap<>();
             response.put("message", "Login successful! Welcome, " + username + "!");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            Map<String, String> response = new HashMap<>();
             response.put("message", "Invalid username or password. Please try again.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> registerUser(@RequestBody BudgetTrackerRecordDTO userDTO) {
-        Map<String, String> response = new HashMap<>();
+    public ResponseEntity<Map<String, Object>> registerUser(@RequestBody BudgetTrackerRecordDTO userDTO) {
+        Map<String, Object> response = new HashMap<>();
         try {
             User user = userDTOToEntityConverter.convert(userDTO);
             budgetTrackerService.registerUser(user);
             response.put("message", "User registered successfully!");
+            response.put("userId", user.getId());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.put("message", "Failed to register user: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
+
 }

@@ -1,29 +1,46 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { ApiService } from './api.service';
+import { SecurityService } from './security.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient) {}
+  constructor(private apiService: ApiService, private securityService: SecurityService) { }
+
+  isLoggedIn(): Observable<boolean> {
+    return new Observable<boolean>(observer => {
+      const isLoggedIn = !!this.securityService.getToken();
+      observer.next(isLoggedIn);
+      observer.complete();
+    });
+  }
 
   login(username: string, password: string): Observable<any> {
-    return this.http.post<any>('http://localhost:8080/api/security/login', { username, password }).pipe(
-      tap(() => {
-        this.loggedIn.next(true);
+    return this.apiService.post('/security/login', { username, password }).pipe(
+      map((response: any) => {
+        this.securityService.setToken(response.token);
+        localStorage.setItem('userId', response.userId);
+        return response;
       })
     );
   }
 
-  logout(): void {
-    this.loggedIn.next(false);
+  register(userDTO: any): Observable<any> {
+    return this.apiService.post('/security/register', userDTO).pipe(
+      map((response: any) => {
+        this.securityService.setToken(response.token);
+        localStorage.setItem('userId', response.userId);
+        return response;
+      })
+    );
   }
 
-  isLoggedIn(): Observable<boolean> {
-    return this.loggedIn.asObservable();
+  logout() {
+    this.securityService.removeToken();
+    localStorage.removeItem('userId');
   }
 }

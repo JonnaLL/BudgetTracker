@@ -18,7 +18,7 @@ public class Expense {
     private String category;
 
     @Column(name = "amount", nullable = false)
-    private double amount;
+    private Double amount;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

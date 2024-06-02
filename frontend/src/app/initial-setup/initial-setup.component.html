@@ -1,16 +1,22 @@
-<div class="container">
-    <h1>Initial Setup</h1>
-    <form [formGroup]="setupForm" (ngSubmit)="onSubmit()">
-      <div class="input-section">
-        <label for="initialIncome">Initial Income:</label>
-        <input id="initialIncome" formControlName="initialIncome" type="number" />
-      </div>
-      <div class="input-section">
-        <label for="savingsGoal">Savings Goal (%):</label>
-        <input id="savingsGoal" formControlName="savingsGoal" type="number" />
-      </div>
-      <button type="submit">Save</button>
-    </form>
-    <div #message></div>
+<div class="setup-container">
+  <form [formGroup]="incomeForm" (ngSubmit)="onSubmitIncome()">
+    <label for="initialIncome">Enter Initial Income:</label>
+    <input id="initialIncome" formControlName="initialIncome" type="number">
+    <button type="submit">Submit Income</button>
+    <div *ngIf="incomeErrorMessage" class="error-message">{{ incomeErrorMessage }}</div>
+    <div *ngIf="incomeSuccessMessage" class="success-message">{{ incomeSuccessMessage }}</div>
+  </form>
+
+  <form [formGroup]="savingsForm" (ngSubmit)="onSubmitSavingsGoal()" *ngIf="incomeSubmitted">
+    <label for="savingsGoal">Set Savings Goal Percentage:</label>
+    <input id="savingsGoal" formControlName="savingsGoal" type="number">
+    <button type="submit">Submit Savings Goal</button>
+    <div *ngIf="savingsErrorMessage" class="error-message">{{ savingsErrorMessage }}</div>
+    <div *ngIf="savingsSuccessMessage && !savingsSubmitted" class="success-message">{{ savingsSuccessMessage }}</div>
+  </form>
+
+  <div *ngIf="savingsSubmitted">
+    <div class="success-message">{{ savingsSuccessMessage }}</div>
+    <button (click)="onStart()">Let's Get Started</button>
   </div>
-  
+</div>

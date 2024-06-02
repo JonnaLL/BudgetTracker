@@ -1,37 +1,33 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BudgetService {
-  private transactions: any[] = [];
-  private totalIncome: number = 0;
-  private totalExpenses: number = 0;
+  private apiUrl = 'http://localhost:8080/api/budget';
 
-  constructor() {
-  
+  constructor(private http: HttpClient) { }
+
+  enterInitialIncome(totalIncome: number, userId: number): Observable<any> {
+    const body = { amount: totalIncome, user: { id: userId } };
+    return this.http.post<{ message: string }>(`${this.apiUrl}/income`, body).pipe(
+      catchError(error => {
+        console.error('Error during HTTP request', error);
+        return throwError(error);
+      })
+    );
   }
 
-  addExpense(amount: number, description: string) {
-   
-  }
-
-  addIncome(amount: number, description: string) {
-    
-  }
-
-  getTotalIncome(): number {
-    
-    return this.totalIncome;
-  }
-
-  getTotalExpenses(): number {
-    
-    return this.totalExpenses;
-  }
-
-  getTransactions(): any[] {
-    
-    return this.transactions;
+  setSavingsGoal(goalPercentage: number, userId: number): Observable<any> {
+    const body = { savingsGoalPercentage: goalPercentage, user: { id: userId } };
+    return this.http.post<{ message: string }>(`${this.apiUrl}/savings`, body).pipe(
+      catchError(error => {
+        console.error('Error during HTTP request', error);
+        return throwError(error);
+      })
+    );
   }
 }

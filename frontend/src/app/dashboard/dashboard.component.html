@@ -1,15 +1,19 @@
 <div class="container">
   <h1>User Dashboard</h1>
   <div *ngIf="welcomeMessage" class="welcome-message">{{ welcomeMessage }}</div>
-  <form [formGroup]="userDataForm" (ngSubmit)="onSubmit()"> 
-    <div class="input-section">
-      <label for="initialIncome">Initial Income:</label>
-      <input id="initialIncome" formControlName="initialIncome" type="number" /> 
-    </div>
-    <div class="input-section">
-      <label for="savingsGoal">Savings Goal (%):</label>
-      <input id="savingsGoal" formControlName="savingsGoal" type="number" /> 
-    </div>
-    <button type="submit">Update</button>
-  </form>
+  <div *ngIf="userInfo" class="user-info">
+    <p><strong>Username:</strong> {{ userInfo.username }}</p>
+    <p><strong>Email:</strong> {{ userInfo.email }}</p>
+  </div>
+
+  <div class="actions-menu">
+    <h2>Main Actions</h2>
+    <ul>
+      <li><a routerLink="/add-expense">Add Expense</a></li>
+      <li><a routerLink="/add-income">Add Additional Income</a></li>
+      <li><a routerLink="/view-overview">View Overview of Expenses</a></li>
+      <li><a routerLink="/check-savings">Check Savings Status</a></li>
+      <!-- Add more actions -->
+    </ul>
+  </div>
 </div>

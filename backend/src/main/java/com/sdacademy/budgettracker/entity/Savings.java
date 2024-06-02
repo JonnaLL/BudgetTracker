@@ -13,7 +13,7 @@ public class Savings {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Double id;
+    private Long id;
 
     @Column(name = "savings_goal_percentage", nullable = false)
     private Double savingsGoalPercentage;
