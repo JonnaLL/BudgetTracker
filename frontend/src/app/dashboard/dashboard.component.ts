@@ -28,7 +28,8 @@ export class DashboardComponent implements OnInit {
     if (storedUserId) {
       this.userId = Number(storedUserId);
       this.fetchUserData();
-      this.openMotivationModal();  // Open motivation modal on initialization
+      this.openMotivationModal();  
+      
     } else {
       this.router.navigate(['/home']);
     }
