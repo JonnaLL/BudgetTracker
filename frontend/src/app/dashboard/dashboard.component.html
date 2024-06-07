@@ -11,9 +11,10 @@
     <ul>
       <li><a routerLink="/add-expense">Add Expense</a></li>
       <li><a routerLink="/add-income">Add Additional Income</a></li>
-      <li><a routerLink="/view-overview">View Overview of Expenses</a></li>
-      <li><a routerLink="/check-savings">Check Savings Status</a></li>
-      <!-- Add more actions -->
+      <li><a routerLink="/overview">View Overview of Expenses</a></li>
+      <li><a routerLink="/savings">Check Savings Status</a></li>
+      <li><button (click)="openMotivationModal()" class="button-link">Get Motivated</button></li>
+      <li><button (click)="logout()" class="button-link">Logout</button></li>
     </ul>
   </div>
 </div>

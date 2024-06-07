@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { BudgetService } from '../../services/budget.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-initial-setup',
@@ -15,75 +15,76 @@ export class InitialSetupComponent implements OnInit {
   incomeSuccessMessage: string = '';
   savingsErrorMessage: string = '';
   savingsSuccessMessage: string = '';
-  userId: number | null = null;
   incomeSubmitted: boolean = false;
   savingsSubmitted: boolean = false;
+  userId: number = 0;
 
-  constructor(
-    private fb: FormBuilder,
-    private budgetService: BudgetService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
+  constructor(private fb: FormBuilder, private budgetService: BudgetService, private router: Router) {
     this.incomeForm = this.fb.group({
-      initialIncome: [null, [Validators.required, Validators.min(0)]]
+      amount: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]]
     });
-
     this.savingsForm = this.fb.group({
-      savingsGoal: [null, [Validators.required, Validators.min(0), Validators.max(100)]]
+      savingsGoalPercentage: ['', [Validators.required, Validators.min(0), Validators.max(100)]]
     });
+
+    const storedUserId = localStorage.getItem('userId');
+    if (storedUserId) {
+      this.userId = Number(storedUserId);
+      console.log('User ID:', this.userId);
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.userId = +params['userId'];
-    });
-  }
+  ngOnInit(): void {}
 
   onSubmitIncome(): void {
-    this.incomeErrorMessage = '';
-    this.incomeSuccessMessage = '';
-    if (this.incomeForm.valid && this.userId !== null) {
-      const initialIncome = this.incomeForm.controls['initialIncome'].value;
-      this.budgetService.enterInitialIncome(initialIncome, this.userId).subscribe({
-        next: response => {
-          console.log('Response from server:', response);
-          this.incomeSuccessMessage = response.message;
+    if (this.incomeForm.valid) {
+      const amount = this.incomeForm.value.amount;
+      this.budgetService.enterInitialIncome(amount, this.userId).subscribe({
+        next: (response) => {
+          this.incomeSuccessMessage = 'Income added successfully!';
+          this.incomeErrorMessage = '';
           this.incomeSubmitted = true;
-          this.incomeForm.controls['initialIncome'].disable();
+          this.checkCompletion();
         },
-        error: error => {
-          console.log('Error from server:', error);
-          this.incomeErrorMessage = error.error.message || 'Failed to save income';
+        error: (error) => {
+          console.error('Error adding income:', error);
+          this.incomeErrorMessage = 'Error adding income: ' + (error.error?.message || 'Unknown error');
+          this.incomeSuccessMessage = '';
         }
       });
-    } else {
-      this.incomeErrorMessage = 'Please fill out the initial income correctly.';
     }
   }
 
   onSubmitSavingsGoal(): void {
-    this.savingsErrorMessage = '';
-    this.savingsSuccessMessage = '';
-    if (this.savingsForm.valid && this.userId !== null) {
-      const savingsGoal = this.savingsForm.controls['savingsGoal'].value;
-      this.budgetService.setSavingsGoal(savingsGoal, this.userId).subscribe({
-        next: response => {
-          console.log('Response from server:', response);
+    if (this.savingsForm.valid) {
+      const goalPercentage = this.savingsForm.value.savingsGoalPercentage;
+      this.budgetService.setSavingsGoal(goalPercentage, this.userId).subscribe({
+        next: (response) => {
           this.savingsSuccessMessage = response.message;
+          this.savingsErrorMessage = '';
           this.savingsSubmitted = true;
+          this.checkCompletion();
         },
-        error: error => {
-          console.log('Error from server:', error);
-          this.savingsErrorMessage = error.error.message || 'Failed to set savings goal';
-        }
+        error: (error) => {
+          console.error('Error setting savings goal:', error);
+          this.savingsErrorMessage = 'Error setting savings goal: ' + (error.error.message || 'Unknown error');
+          this.savingsSuccessMessage = '';
+        },
       });
-    } else {
-      this.savingsErrorMessage = 'Please fill out the savings goal percentage correctly.';
+    }
+  }
+
+  checkCompletion(): void {
+    console.log('Income submitted:', this.incomeSubmitted, 'Savings submitted:', this.savingsSubmitted);
+    if (this.incomeSubmitted && this.savingsSubmitted) {
+      console.log('Savings goal set. Waiting for user to continue...');
     }
   }
 
   onStart(): void {
-    this.router.navigate(['/dashboard']);
+    console.log('Navigating to dashboard');
+    this.router.navigate(['/dashboard'], { queryParams: { userId: this.userId } });
   }
 }

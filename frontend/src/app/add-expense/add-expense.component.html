@@ -1,11 +1,18 @@
-<div class="form-group">
-  <label for="description">Description</label>
-  <input type="text" id="description" [(ngModel)]="description" name="description" class="form-control" required>
+<div class="container">
+  <h2>Add Expense</h2>
+  <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="amount">Amount</label>
+      <input type="number" id="amount" formControlName="amount" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="category">Category</label>
+      <select id="category" formControlName="category" class="form-control">
+        <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="!expenseForm.valid">Add Expense</button>
+  </form>
+  <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
 </div>
-
-<div class="form-group">
-  <label for="amount">Amount</label>
-  <input type="number" id="amount" [(ngModel)]="amount" name="amount" class="form-control" required>
-</div>
-
-<button type="button" (click)="addExpense()">Add Expense</button>

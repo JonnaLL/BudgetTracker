@@ -1,4 +1,21 @@
-<h2>Overview</h2>
-<div *ngFor="let transaction of transactions">
-  <p>{{ transaction.description }}: {{ transaction.amount | currency }}</p>
+<div class="container">
+  <h2>Overview of Expenses</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of overview">
+        <td>{{ item.category }}</td>
+        <td>{{ item.amount }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="container">
+  <h2>Savings Goal</h2>
+  <p *ngIf="savingsGoal !== null">Your current savings goal is {{ savingsGoal }}%</p>
 </div>

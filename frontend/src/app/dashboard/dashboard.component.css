@@ -6,28 +6,15 @@
 
 .user-info {
   margin-bottom: 20px;
-  font-size: 1.2em;
-}
-
-.welcome-message {
-  font-size: 2em;
-  margin-bottom: 20px;
-  color: #007bff;
 }
 
 .actions-menu {
-  margin-top: 30px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
 }
 
 .actions-menu h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 1.5em;
-  color: #333;
+  margin-bottom: 10px;
+  color: #007bff;
 }
 
 .actions-menu ul {
@@ -35,21 +22,42 @@
   padding: 0;
 }
 
-.actions-menu li {
+.actions-menu ul li {
   margin-bottom: 10px;
 }
 
-.actions-menu a {
+.actions-menu ul li a,
+.actions-menu ul li button {
   display: block;
   padding: 10px 20px;
   background-color: #007bff;
   color: white;
-  text-align: center;
   text-decoration: none;
   border-radius: 5px;
   transition: background-color 0.3s ease;
+  border: none;
+  cursor: pointer;
 }
 
-.actions-menu a:hover {
+.actions-menu ul li a:hover,
+.actions-menu ul li button:hover {
   background-color: #0056b3;
+}
+
+.expenses-overview, .motivational-quote {
+  margin-top: 20px;
+  padding: 20px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.motivational-quote p {
+  font-size: 1.2em;
+  margin: 10px 0;
+}
+
+.motivational-quote em {
+  font-size: 1em;
+  color: #555;
 }

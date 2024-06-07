@@ -1,8 +1,16 @@
-<h2>Add Income</h2>
-<form (submit)="addIncome()">
-  <label for="amount">Amount:</label>
-  <input type="number" id="amount" [(ngModel)]="amount" name="amount" required>
-  <label for="description">Description:</label>
-  <input type="text" id="description" [(ngModel)]="description" name="description" required>
-  <button type="submit">Add Income</button>
-</form>
+<div class="container">
+  <h2>Add Income</h2>
+  <form [formGroup]="incomeForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="amount">Amount</label>
+      <input type="number" id="amount" formControlName="amount" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="!incomeForm.valid">Add Income</button>
+  </form>
+  <div *ngIf="successMessage" class="alert alert-success mt-3">
+    {{ successMessage }} <br />
+    Total Income: {{ totalIncome }}
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+  <button *ngIf="successMessage" class="btn btn-secondary mt-3" (click)="addAnotherIncome()">Add Another Income</button>
+</div>

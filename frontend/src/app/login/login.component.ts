@@ -16,13 +16,15 @@ export class LoginComponent {
 
   login() {
     this.authService.login(this.username, this.password).subscribe({
-      next: response => {
-        localStorage.setItem('token', response.token); 
+      next: (response: any) => {
+        localStorage.setItem('authToken', response.token);
+        localStorage.setItem('userId', response.userId ? response.userId.toString() : '');
+        console.log('Token stored in localStorage after login:', localStorage.getItem('authToken'));
         this.router.navigate(['/dashboard']);
       },
-      error: error => {
+      error: (error: any) => {
         console.error('Login failed', error);
-        this.errorMessage = error.error.message || 'Login failed. Please try again.';
+        this.errorMessage = error.error?.message || 'Login failed. Please try again.';
       }
     });
   }
