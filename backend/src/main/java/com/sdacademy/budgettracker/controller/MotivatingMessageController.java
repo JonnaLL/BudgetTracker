@@ -1,7 +1,6 @@
 package com.sdacademy.budgettracker.controller;
 
 import com.sdacademy.budgettracker.dto.MotivatingMessageDTO;
-import com.sdacademy.budgettracker.entity.MotivatingMessage;
 import com.sdacademy.budgettracker.service.MotivatingMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

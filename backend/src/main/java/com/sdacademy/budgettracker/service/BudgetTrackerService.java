@@ -5,7 +5,7 @@ import com.sdacademy.budgettracker.entity.User;
 
 public interface BudgetTrackerService {
     void createRecord(BudgetTrackerRecordDTO recordDTO);
-    void login(String username, String password);
+    User login(String username, String password);
     void registerUser(User user);
     void enterInitialIncome(Double totalIncome, Long userId);
     void setSavingsGoal(double goalPercentage, Long userId);

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,7 +52,7 @@ public class BudgetTrackerServiceImpl implements BudgetTrackerService {
         if (recordDTO.getCategory() != null) {
             Expense expense = expenseConverter.convert(recordDTO);
             expenseRepository.save(expense);
-        } else if (recordDTO.getSavingsGoalPercentage() != 0) {
+        } else if (recordDTO.getSavingsGoalPercentage() != null) {
             Savings savings = savingsConverter.convert(recordDTO);
             savingsRepository.save(savings);
         } else {
@@ -61,8 +62,8 @@ public class BudgetTrackerServiceImpl implements BudgetTrackerService {
     }
 
     @Override
-    public void login(String username, String password) {
-        userService.login(username, password);
+    public User login(String username, String password) {
+        return userService.login(username, password);
     }
 
     @Override
@@ -70,11 +71,27 @@ public class BudgetTrackerServiceImpl implements BudgetTrackerService {
         userRepository.save(user);
     }
 
+    @Override
+    @Transactional
     public void enterInitialIncome(Double totalIncome, Long userId) {
+        User user = userService.getCurrentUser(userId);
         Income income = new Income();
         income.setAmount(totalIncome);
-        income.setUser(userService.getCurrentUser(userId));
+        income.setUser(user);
         incomeRepository.save(income);
+
+        // Adding total income to the existing incomes
+        double total = incomeRepository.findTotalIncomeByUserId(userId).orElse(0.0);
+        user.setTotalIncome(total);
+        userRepository.save(user);
+    }
+
+    @Override
+    public Object getOverviewOfExpenses(Long userId) {
+        List<Expense> expenses = expenseRepository.findAllByUserId(userId);
+        return expenses.stream()
+                .map(expense -> Map.of("category", expense.getCategory(), "amount", expense.getAmount()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -117,13 +134,5 @@ public class BudgetTrackerServiceImpl implements BudgetTrackerService {
         // Display savings status
         System.out.println("At the moment your savings percentage is " + savingsPercentage
                 + "% and you have saved " + savingsAmount + " euros");
-    }
-
-    @Override
-    public Object getOverviewOfExpenses(Long userId) {
-        List<Expense> expenses = expenseRepository.findAllByUserId(userId);
-        return expenses.stream()
-                .map(expense -> "Category: " + expense.getCategory() + ", Amount: " + expense.getAmount())
-                .collect(Collectors.toList());
     }
 }
