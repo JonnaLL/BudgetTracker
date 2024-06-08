@@ -6,18 +6,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-
   private baseUrl = 'http://localhost:8080/api';
 
-  constructor(private http: HttpClient) { }
-
-  login(username: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/security/login`, { username, password });
-  }
-
-  register(username: string, email: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/security/register`, { username, email, password });
-  }
+  constructor(private http: HttpClient) {}
 
   getUserData(userId: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/budget/overview/${userId}`);
@@ -29,5 +20,21 @@ export class UserService {
 
   setSavingsGoal(goalPercentage: number, userId: number): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/budget/savings`, { goalPercentage, userId });
+  }
+
+  addExpense(expense: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/budget/expense`, expense);
+  }
+
+  getMotivationalQuote(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/motivation/random-message`);
+  }
+
+  checkSavingsStatus(userId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/budget/savings-status/${userId}`);
+  }
+
+  getOverviewOfExpenses(userId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/budget/overview/${userId}`);
   }
 }

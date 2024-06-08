@@ -13,7 +13,7 @@ export class RegisterComponent {
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private registrationService: RegistrationService, private router: Router) { }
+  constructor(private registrationService: RegistrationService, private router: Router) {}
 
   goBack(): void {
     this.router.navigate(['/']);
@@ -27,13 +27,15 @@ export class RegisterComponent {
 
     this.registrationService.registerUser(this.username, this.email, this.password).subscribe({
       next: (response) => {
-        const userId = response.userId; // Ensure backend returns userId
+        const userId = response.userId;
+        localStorage.setItem('authToken', response.token); // Store the token
+        localStorage.setItem('userId', userId.toString());
+        console.log('Registration successful, navigating to welcome');
         this.router.navigate(['/welcome'], { queryParams: { userId: userId } });
       },
-      error: error => {
+      error: (error) => {
         this.errorMessage = error.error.message || 'Registration failed';
       }
     });
   }
 }
-

@@ -6,6 +6,10 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { LoginComponent } from './login/login.component';
 import { InitialSetupComponent } from './initial-setup/initial-setup.component';
 import { HomeComponent } from './home/home.component';
+import { AddIncomeComponent } from './add-income/add-income.component';
+import { AddExpenseComponent } from './add-expense/add-expense.component';
+import { OverviewComponent } from './overview/overview.component';
+import { SavingsComponent } from './savings/savings.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -15,6 +19,10 @@ const routes: Routes = [
   { path: 'welcome', component: WelcomeComponent, canActivate: [AuthGuard] },
   { path: 'initial-setup', component: InitialSetupComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'add-income', component: AddIncomeComponent, canActivate: [AuthGuard] },
+  { path: 'add-expense', component: AddExpenseComponent, canActivate: [AuthGuard] },
+  { path: 'overview', component: OverviewComponent, canActivate: [AuthGuard] },
+  { path: 'savings', component: SavingsComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];
 

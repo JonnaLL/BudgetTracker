@@ -23,10 +23,12 @@ public class BudgetTrackerController {
     }
 
     @PostMapping("/income")
-    public ResponseEntity<Map<String, String>> enterInitialIncome(@Valid @RequestBody BudgetTrackerRecordDTO recordDTO) {
+    public ResponseEntity<Map<String, String>> enterInitialIncome(@Valid @RequestBody Map<String, Object> recordData) {
         Map<String, String> response = new HashMap<>();
         try {
-            budgetTrackerService.enterInitialIncome(recordDTO.getAmount(), recordDTO.getUser().getId());
+            Double amount = Double.valueOf(recordData.get("amount").toString());
+            Long userId = Long.valueOf(recordData.get("userId").toString());
+            budgetTrackerService.enterInitialIncome(amount, userId);
             response.put("message", "Income saved successfully!");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
@@ -39,8 +41,8 @@ public class BudgetTrackerController {
     public ResponseEntity<Map<String, String>> setSavingsGoal(@Valid @RequestBody BudgetTrackerRecordDTO recordDTO) {
         Map<String, String> response = new HashMap<>();
         try {
-            budgetTrackerService.setSavingsGoal(recordDTO.getSavingsGoalPercentage(), recordDTO.getUser().getId());
-            double totalSavings = budgetTrackerService.getTotalIncome(recordDTO.getUser().getId()) * recordDTO.getSavingsGoalPercentage() / 100;
+            budgetTrackerService.setSavingsGoal(recordDTO.getSavingsGoalPercentage(), recordDTO.getUserId());
+            double totalSavings = budgetTrackerService.getTotalIncome(recordDTO.getUserId()) * recordDTO.getSavingsGoalPercentage() / 100;
             response.put("message", "Savings goal percentage saved successfully! With your savings goal, you'll be able to save " + totalSavings + " euros monthly! That's great!");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
