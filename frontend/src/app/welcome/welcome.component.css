@@ -1,11 +1,79 @@
 /* welcome.component.css */
 .welcome-container {
-    text-align: center;
-    padding: 50px;
-  }
-  
-  blockquote {
-    font-size: 1.5em;
-    margin: 20px 0;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url('assets/colorful-seamless-pattern-with-illustrations-about-business-with-money-coins-dollar-percent_649043-31.jpg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+
+}
+
+/* Main content styling */
+.welcome-container {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+
+}
+
+.welcome-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+.welcome-container h1 {
+  z-index: 2;
+
+}
+
+.welcome-container p {
+  color: #dda0dd;
+  font-size: 2em;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+
+}
+
+.welcome-container blockquote {
+  font-size: 1.5em;
+  font-style: italic;
+  color: #ffd700;
+  margin-bottom: 40px;
+  z-index: 2;
+
+}
+
+.get-started-button {
+  background-color: #ff69b4;
+  border: none;
+  color: white;
+  padding: 15px 20px;
+  text-align: center;
+  font-size: 1.2em;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+}
+
+.get-started-button:hover {
+  background-color: #a54c87;
+
+}

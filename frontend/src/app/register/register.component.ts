@@ -21,7 +21,7 @@ export class RegisterComponent {
 
   register(): void {
     if (!this.username || !this.email || !this.password) {
-      this.errorMessage = 'All fields are required';
+      this.errorMessage = 'All fields are required!';
       return;
     }
 

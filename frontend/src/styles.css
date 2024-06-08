@@ -2,7 +2,7 @@ body, html {
     height: 100%;
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #f5f5f5;
+    background-color:#f8def8;
 }
 
 /* Container for the landing page */
@@ -49,14 +49,14 @@ h1 {
 
 /* Introductory text styling */
 .intro-text {
-    font-size: 1.5em;
-    margin-bottom: 30px;
+    font-size: 2em;
+    margin-bottom: 40px;
     color: #dda0dd;
 }
 
 /* Quote styling */
 .quote {
-    font-size: 1.2em;
+    font-size: 1.8em;
     font-style: italic;
     color: #ffd700;
     margin-bottom: 40px;
@@ -96,7 +96,7 @@ h1 {
 /* Hover effect for action buttons */
 .action-button:hover {
     transform: translateY(-2px);
-    background-color: #ffcc00; 
+    background-color: #a54c87; 
 }
 
 /* Underline effect for heading */
@@ -105,7 +105,7 @@ h1::after {
     display: block;
     width: 100px;
     height: 5px;
-    background: #ffd700;
+    background: #a54c87;
     margin: 10px auto 0;
     border-radius: 2px;
 }
