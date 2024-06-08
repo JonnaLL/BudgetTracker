@@ -78,7 +78,6 @@
 
 .user-info {
   margin-bottom: 20px;
-<<<<<<< HEAD
 }
 
 .actions-menu {
@@ -88,45 +87,6 @@
 .actions-menu h2 {
   margin-bottom: 10px;
   color: #007bff;
-=======
-  font-size: 1.2em;
-
-}
-
-.welcome-message {
-  font-size: 2em;
-  margin-bottom: 20px;
-  color: #007bff;
-
-}
-
-.actions-menu {
-  width: 100%;
-  margin: 30px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-
-}
-
-.container h1 {
-  font-size: 4em;
-  margin-top: 10px;
-  margin-bottom: 5px;
-  color: #ff69b4;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-  text-align: center;
-
-}
-
-.actions-menu h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 1.5em;
-  color: #333;
-
-
->>>>>>> feature/css-updates
 }
 
 .actions-menu ul {
@@ -157,15 +117,9 @@
   cursor: pointer;
 }
 
-<<<<<<< HEAD
-.actions-menu ul li a:hover,
-.actions-menu ul li button:hover {
-  background-color: #0056b3;
-=======
 .actions-menu a:hover {
   background-color: #a54c87;
 
->>>>>>> feature/css-updates
 }
 
 .expenses-overview, .motivational-quote {

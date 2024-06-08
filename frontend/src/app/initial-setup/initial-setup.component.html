@@ -1,49 +1,20 @@
-<<<<<<< HEAD
 <div class="container">
-  <h2>Initial Setup</h2>
+  <h1>Budget Tracker Setup</h1>
+  <p>Welcome! Please enter your initial income and set a savings goal to get started.</p>
 
   <!-- Form for Initial Income -->
   <form [formGroup]="incomeForm" (ngSubmit)="onSubmitIncome()">
-=======
-<head>
-  <meta charset="utf-8">
-  <title>BudgetTracker</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-</head>
-<body>
-  <div class="page-header">
-    <h1>BudgetTracker Setup</h1>
-    <p>Please enter your initial income and set a savings goal</p>
-  </div>
-
-<div class="setup-container">
-  <form [formGroup]="incomeForm" (ngSubmit)="onSubmitIncome()">
-    <label for="initialIncome">Enter Initial Income (EUR):</label>
-    <input id="initialIncome" formControlName="initialIncome" type="number">
-    <button type="submit">Submit Income</button>
->>>>>>> feature/css-updates
     <div *ngIf="incomeErrorMessage" class="error-message">{{ incomeErrorMessage }}</div>
     <div *ngIf="incomeSuccessMessage" class="success-message">{{ incomeSuccessMessage }}</div>
     <div>
-      <label for="amount">Initial Income:</label>
+      <label for="amount">Initial Income (EUR):</label>
       <input type="number" id="amount" formControlName="amount" required>
     </div>
     <button type="submit">Save Initial Income</button>
   </form>
 
-<<<<<<< HEAD
   <!-- Form for Savings Goal -->
   <form [formGroup]="savingsForm" (ngSubmit)="onSubmitSavingsGoal()" *ngIf="incomeSubmitted && !savingsSubmitted">
-=======
-  <form [formGroup]="savingsForm" (ngSubmit)="onSubmitSavingsGoal()" *ngIf="incomeSubmitted">
-    <label for="savingsGoal">Set Savings Goal Percentage (%):</label>
-    <input id="savingsGoal" formControlName="savingsGoal" type="number">
-    <button type="submit">Submit Savings Goal</button>
->>>>>>> feature/css-updates
     <div *ngIf="savingsErrorMessage" class="error-message">{{ savingsErrorMessage }}</div>
     <div *ngIf="savingsSuccessMessage && !savingsSubmitted" class="success-message">{{ savingsSuccessMessage }}</div>
     <div>
@@ -56,10 +27,6 @@
   <!-- Message after Savings Goal is set -->
   <div *ngIf="savingsSubmitted">
     <div class="success-message">{{ savingsSuccessMessage }}</div>
-<<<<<<< HEAD
     <button (click)="onStart()">Continue</button>
-=======
-    <button (click)="onStart()">Go to the Dashboard</button>
->>>>>>> feature/css-updates
   </div>
 </div>
