@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
@@ -13,28 +13,40 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  setToken(token: string): void {
-    localStorage.setItem(this.tokenKey, token);
+  private setItem(key: string, value: string): void {
+    localStorage.setItem(key, value);
   }
 
-  setRefreshToken(refreshToken: string): void {
-    localStorage.setItem(this.refreshTokenKey, refreshToken);
+  private getItem(key: string): string | null {
+    return localStorage.getItem(key);
+  }
+
+  private removeItem(key: string): void {
+    localStorage.removeItem(key);
+  }
+
+  setToken(token: string): void {
+    this.setItem(this.tokenKey, token);
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
-  }
-
-  getRefreshToken(): string | null {
-    return localStorage.getItem(this.refreshTokenKey);
+    return this.getItem(this.tokenKey);
   }
 
   removeToken(): void {
-    localStorage.removeItem(this.tokenKey);
+    this.removeItem(this.tokenKey);
+  }
+
+  setRefreshToken(refreshToken: string): void {
+    this.setItem(this.refreshTokenKey, refreshToken);
+  }
+
+  getRefreshToken(): string | null {
+    return this.getItem(this.refreshTokenKey);
   }
 
   removeRefreshToken(): void {
-    localStorage.removeItem(this.refreshTokenKey);
+    this.removeItem(this.refreshTokenKey);
   }
 
   isLoggedIn(): boolean {
@@ -70,6 +82,9 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/refresh-token`, { refreshToken }).pipe(
       map(response => {
         this.setToken(response.token);
+        if (response.refreshToken) {
+          this.setRefreshToken(response.refreshToken);
+        }
         return response;
       }),
       catchError(this.handleError)
@@ -77,17 +92,25 @@ export class AuthService {
   }
 
   getCurrentUserId(): number | null {
-    const userId = localStorage.getItem('userId');
+    const userId = this.getItem('userId');
     return userId ? Number(userId) : null;
   }
 
-  logout() {
+  logout(): void {
     this.removeToken();
     this.removeRefreshToken();
     localStorage.removeItem('userId');
   }
 
-  private handleError(error: any) {
-    return throwError(error.message || 'Server Error');
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'An unknown error occurred!';
+    if (error.error instanceof ErrorEvent) {
+      // Client-side or network error
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // Backend error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    return throwError(errorMessage);
   }
 }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,11 +15,13 @@ import { HomeComponent } from './home/home.component';
 import { AddIncomeComponent } from './add-income/add-income.component';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { OverviewComponent } from './overview/overview.component';
-import { SavingsComponent } from './savings/savings.component'; 
+import { SavingsComponent } from './savings/savings.component';
 import { MotivationModalComponent } from './motivation-modal/motivation-modal.component';
 
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
+import { BudgetService } from '../services/budget.service';
+import { AuthInterceptor } from './auth.interceptor'; 
 
 @NgModule({
   declarations: [
@@ -33,7 +35,7 @@ import { UserService } from '../services/user.service';
     HomeComponent,
     AddIncomeComponent,
     OverviewComponent,
-    SavingsComponent, 
+    SavingsComponent,
     MotivationModalComponent
   ],
   imports: [
@@ -44,7 +46,16 @@ import { UserService } from '../services/user.service';
     AppRoutingModule,
     MatDialogModule
   ],
-  providers: [AuthService, UserService],
+  providers: [
+    AuthService,
+    UserService,
+    BudgetService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

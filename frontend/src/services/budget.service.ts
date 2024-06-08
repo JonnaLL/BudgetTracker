@@ -17,10 +17,12 @@ export class BudgetService {
     if (!token) {
       throw new Error('No token found');
     }
-    return new HttpHeaders({
+    const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
+    console.log('Authorization Headers:', headers); // Debugging line
+    return headers;
   }
 
   enterInitialIncome(amount: number, userId: number): Observable<any> {
