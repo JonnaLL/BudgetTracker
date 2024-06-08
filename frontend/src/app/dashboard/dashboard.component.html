@@ -1,11 +1,7 @@
-<div class="container">
-  <h1>User Dashboard</h1>
-  <div *ngIf="welcomeMessage" class="welcome-message">{{ welcomeMessage }}</div>
-  <div *ngIf="userInfo" class="user-info">
-    <p><strong>Username:</strong> {{ userInfo.username }}</p>
-    <p><strong>Email:</strong> {{ userInfo.email }}</p>
-  </div>
+<!doctype html>
+<html lang="en">
 
+<<<<<<< HEAD
   <div class="actions-menu">
     <h2>Main Actions</h2>
     <ul>
@@ -16,5 +12,63 @@
       <li><button (click)="openMotivationModal()" class="button-link">Get Motivated</button></li>
       <li><button (click)="logout()" class="button-link">Logout</button></li>
     </ul>
+=======
+<head>
+  <meta charset="utf-8">
+  <title>BudgetTracker</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="mat-typography">
+  <div class="Dashboard container">
+    <h1>Dashboard</h1>
+    <div *ngIf="welcomeMessage" class="welcome-message">{{ welcomeMessage }}</div>
+    <div *ngIf="userInfo" class="user-info">
+      <p><strong>Username:</strong> {{ userInfo.username }}</p>
+      <p><strong>Email:</strong> {{ userInfo.email }}</p>
+    </div>
+
+    <div class="actions-menu">
+      <h2></h2>
+      <ul>
+        <li><a routerLink="/add-expense">Add Expense</a></li>
+        <li><a routerLink="/add-income">Add Additional Income</a></li>
+        <li><a routerLink="/view-overview">View Overview of Expenses</a></li>
+        <li><a routerLink="/check-savings">Check Savings Status</a></li>
+        <li><a routerLink="/get extra motivation">Get Extra Motivation</a></li>
+        <!-- Add more actions -->
+      </ul>
+    </div>
+    <div class="financial-container">
+      <div class="financial-message">
+        <span>We help you keep an</span><br>
+        <span> eye on your finances!</span>
+      </div>
+      <div class="icon-container">
+        <i class="fas fa-piggy-bank"></i>
+      </div>
+    </div>
+
+    <div class="definitions-container">
+      <div class="definition">
+        <h2>Expenses</h2>
+        <p>Expenses are the costs incurred by a business or individual to generate revenue or run operations.</p>
+      </div>
+      <div class="definition">
+        <h2>Income</h2>
+        <p>Income refers to the money received, especially on a regular basis, for work or through investments.</p>
+      </div>
+      <div class="definition">
+        <h2>Saving %</h2>
+        <p>Saving % is the percentage of money that you save from your total income instead of spending it.</p>
+      </div>
+    </div>
+>>>>>>> feature/css-updates
   </div>
-</div>
+</body>
+
+</html>
