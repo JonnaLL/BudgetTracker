@@ -1,17 +1,13 @@
 <div class="container">
-  <h1>User Dashboard</h1>
+  <h1></h1>
   <div *ngIf="welcomeMessage" class="welcome-message">{{ welcomeMessage }}</div>
-  <div *ngIf="userInfo" class="user-info">
-    <p><strong>Username:</strong> {{ userInfo.username }}</p>
-    <p><strong>Email:</strong> {{ userInfo.email }}</p>
-  </div>
 
   <div class="actions-menu">
-    <h2>Main Actions</h2>
+    <h2>Choose your next action!</h2>
     <ul>
       <li><a routerLink="/add-expense">Add Expense</a></li>
       <li><a routerLink="/add-income">Add Additional Income</a></li>
-      <li><a routerLink="/overview">View Overview of Expenses</a></li>
+      <li><a routerLink="/overview">Overview of Expenses</a></li>
       <li><a routerLink="/savings">Check Savings Status</a></li>
       <li><button (click)="openMotivationModal()" class="button-link">Get Motivated</button></li>
       <li><button (click)="logout()" class="button-link">Logout</button></li>
