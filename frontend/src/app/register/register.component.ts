@@ -13,7 +13,7 @@ export class RegisterComponent {
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private registrationService: RegistrationService, private router: Router) {}
+  constructor(private registrationService: RegistrationService, private router: Router) { }
 
   goBack(): void {
     this.router.navigate(['/']);

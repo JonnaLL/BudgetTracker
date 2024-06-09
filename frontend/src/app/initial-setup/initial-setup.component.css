@@ -9,15 +9,10 @@
   text-align: center;
 
 }
+
 .page-header {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 
-}
-
-.page-header h1 {
-  font-size: 2.5em;
-  color: #ff69b4;
-  text-align: center;
 }
 
 .page-header p {
@@ -26,13 +21,26 @@
   text-align: center;
 }
 
+.setup-container {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+
 .setup-container label {
   font-size: 2em;
   color: #ff69b4;
   margin-bottom: 20px;
   text-align: center;
   display: block;
-
 
 }
 
@@ -45,6 +53,7 @@
 .success-message {
   color: #a54c87;
   margin-top: 10px;
+  margin-bottom: 30px;
 
 }
 
@@ -73,5 +82,23 @@ button {
 
 button:hover {
   background-color: #a54c87;
+
+}
+
+.header-container {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-top: 20PX;
+}
+
+.header-container h1 {
+  font-size: 3em;
+  color: #ff69b4;
+  margin-bottom: 20px;
+}
+
+.header-container p {
+  font-size: 1.4em;
+  color: #a54c87;
 
 }

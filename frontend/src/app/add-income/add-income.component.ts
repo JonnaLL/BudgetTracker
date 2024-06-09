@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BudgetService } from '../../services/budget.service';
 import { AuthService } from '../../services/auth.service';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-add-income',
   templateUrl: './add-income.component.html',
@@ -16,7 +16,7 @@ export class AddIncomeComponent implements OnInit {
   errorMessage: string = '';
   totalIncome: number = 0;
 
-  constructor(private fb: FormBuilder, private budgetService: BudgetService, private authService: AuthService) {}
+  constructor(private fb: FormBuilder, private budgetService: BudgetService, private authService: AuthService,private location: Location) { }
 
   ngOnInit(): void {
     this.getTotalIncome();
@@ -62,5 +62,9 @@ export class AddIncomeComponent implements OnInit {
     this.incomeForm.reset();
     this.successMessage = '';
     this.errorMessage = '';
+  }
+  goback() {
+    this.location.back();
+
   }
 }

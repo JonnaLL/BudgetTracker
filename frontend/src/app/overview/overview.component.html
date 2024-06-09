@@ -4,18 +4,27 @@
     <thead>
       <tr>
         <th>Category</th>
-        <th>Amount</th>
+        <th>Amount (EUR)</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of overview">
-        <td>{{ item.category }}</td>
-        <td>{{ item.amount }}</td>
+      <tr>
+        <td>Groceries</td>
+        <td>200</td>
+      </tr>
+      <tr>
+        <td>Rent</td>
+        <td>1200</td>
+      </tr>
+      <tr>
+        <td>Utilities</td>
+        <td>150</td>
+      </tr>
+      <tr>
+        <td>Entertainment</td>
+        <td>100</td>
       </tr>
     </tbody>
   </table>
-</div>
-<div class="container">
-  <h2>Savings Goal</h2>
-  <p *ngIf="savingsGoal !== null">Your current savings goal is {{ savingsGoal }}%</p>
+  <button class="btn btn-secondary mt-3" (click)="goBack()">Back</button>
 </div>

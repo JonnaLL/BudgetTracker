@@ -1,6 +1,90 @@
-div {
-    padding: 10px;
-    border: 1px solid #ccc;
-    margin: 10px 0;
-  }
+.container h2 {
+  text-align: center;
+  color: #ff69b4;
+  margin-top: 20px;
+
+}
+
+.container th {
+  color: #ff69b4;
+
+}
+
+.div {
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin: 10px 0;
+}
+
+.container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+table {
+  width: 40%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  text-align: center;
+  margin: 0 auto;
+
+}
+
+th,
+td {
   
+  padding: 8px 4px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  color: #a54c87;
+  font-size: 25px;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+th:nth-child(1),
+td:nth-child(1) {
+  min-width: 150px;
+  /* Minimum width for the Category column */
+
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+  min-width: 100px;
+  /* Minimum width for the Amount column */
+  text-align: right;
+  /* Right-align the Amount column */
+}
+
+h2::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 5px;
+  background: #a54c87;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+.btn {
+  background-color: #ff69b4;
+  border: none;
+  color: white;
+  padding: 15px 20px;
+  text-align: center;
+  font-size: 1.2em;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+  display: block;
+  margin: 0 auto;
+  max-width: 400px;
+}
+.btn:hover {
+  background-color: #a54c87;
+}

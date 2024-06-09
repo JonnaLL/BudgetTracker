@@ -10,7 +10,7 @@ export class WelcomeComponent implements OnInit {
   username: string = '';
   userId: number | null = null;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {

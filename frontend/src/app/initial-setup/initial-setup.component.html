@@ -1,32 +1,49 @@
-<div class="container">
-  <h1>Budget Tracker Setup</h1>
-  <p>Welcome! Please enter your initial income and set a savings goal to get started.</p>
+<!DOCTYPE html>
+<html lang="en">
 
-  <!-- Form for Initial Income -->
-  <form [formGroup]="incomeForm" (ngSubmit)="onSubmitIncome()">
+<head>
+  <meta charset="utf-8">
+  <title>Budget Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="header-container">
+    <h1>Budget Tracker Setup</h1>
+    <p>Please enter your initial income and set a savings goal</p>
+  </div>
+
+  <div class="setup-container">
+    <!-- Form for Initial Income -->
+    <form [formGroup]="incomeForm" (ngSubmit)="onSubmitIncome()">
+
+      <div>
+        <label for="amount">Initial Income (EUR):</label>
+        <input type="number" id="amount" formControlName="amount" required>
+      </div>
+      <button type="submit">Save Initial Income</button>
+    </form>
     <div *ngIf="incomeErrorMessage" class="error-message">{{ incomeErrorMessage }}</div>
     <div *ngIf="incomeSuccessMessage" class="success-message">{{ incomeSuccessMessage }}</div>
-    <div>
-      <label for="amount">Initial Income (EUR):</label>
-      <input type="number" id="amount" formControlName="amount" required>
-    </div>
-    <button type="submit">Save Initial Income</button>
-  </form>
 
-  <!-- Form for Savings Goal -->
-  <form [formGroup]="savingsForm" (ngSubmit)="onSubmitSavingsGoal()" *ngIf="incomeSubmitted && !savingsSubmitted">
-    <div *ngIf="savingsErrorMessage" class="error-message">{{ savingsErrorMessage }}</div>
-    <div *ngIf="savingsSuccessMessage && !savingsSubmitted" class="success-message">{{ savingsSuccessMessage }}</div>
-    <div>
-      <label for="savingsGoalPercentage">Savings Goal Percentage:</label>
-      <input type="number" id="savingsGoalPercentage" formControlName="savingsGoalPercentage" required>
+    <div *ngIf="incomeSubmitted">
+      <!-- Form for Savings Goal -->
+      <form [formGroup]="savingsForm" (ngSubmit)="onSubmitSavingsGoal()">
+        <div>
+          <label for="savingsGoalPercentage">Savings Goal Percentage (%):</label>
+          <input type="number" id="savingsGoalPercentage" formControlName="savingsGoalPercentage" required>
+        </div>
+        <button type="submit">Set Savings Goal</button>
+        <div *ngIf="savingsErrorMessage" class="error-message">{{ savingsErrorMessage }}</div>
+      </form>
     </div>
-    <button type="submit">Set Savings Goal</button>
-  </form>
 
-  <!-- Message after Savings Goal is set -->
-  <div *ngIf="savingsSubmitted">
-    <div class="success-message">{{ savingsSuccessMessage }}</div>
-    <button (click)="onStart()">Continue</button>
+    <!-- Message after Savings Goal is set -->
+    <div *ngIf="savingsSubmitted">
+      <div class="success-message">{{ savingsSuccessMessage }}</div>
+      <button (click)="onStart()">Go to the Dashboard</button>
+    </div>
   </div>
-</div>
+</body>
+
+</html>
