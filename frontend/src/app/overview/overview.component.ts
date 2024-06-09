@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { BudgetService } from '../../services/budget.service';
 import { Location } from '@angular/common';
+
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.css']
 })
 export class OverviewComponent implements OnInit {
-  overview: any[] = [];
+  overview: { category: string, amount: number }[] = [];
   savingsGoal: number | null = null;
 
-  constructor(private budgetService: BudgetService,private location: Location) { }
+  constructor(private budgetService: BudgetService, private location: Location) { }
 
   ngOnInit(): void {
     const userId = Number(localStorage.getItem('userId'));
@@ -23,7 +24,8 @@ export class OverviewComponent implements OnInit {
       error: (error: any) => console.error('Error fetching savings goal:', error)
     });
   }
-    goBack() {
-      this.location.back();
+
+  goBack() {
+    this.location.back();
   }
 }
