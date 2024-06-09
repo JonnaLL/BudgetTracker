@@ -1,16 +1,68 @@
-<div class="container">
-  <h1></h1>
-  <div *ngIf="welcomeMessage" class="welcome-message">{{ welcomeMessage }}</div>
+<!DOCTYPE html>
+<html lang="en">
 
-  <div class="actions-menu">
-    <h2>Choose your next action!</h2>
-    <ul>
-      <li><a routerLink="/add-expense">Add Expense</a></li>
-      <li><a routerLink="/add-income">Add Additional Income</a></li>
-      <li><a routerLink="/overview">Overview of Expenses</a></li>
-      <li><a routerLink="/savings">Check Savings Status</a></li>
-      <li><button (click)="openMotivationModal()" class="button-link">Get Motivated</button></li>
-      <li><button (click)="logout()" class="button-link">Logout</button></li>
-    </ul>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Dashboard</h1>
+    <div *ngIf="welcomeMessage" class="welcome-message">{{ welcomeMessage }}</div>
+
+    <div class="actions-menu">
+      <h2></h2>
+      <ul>
+        <li><a routerLink="/add-expense">Add Expense</a></li>
+        <li><a routerLink="/add-income">Add Additional Income</a></li>
+        <li><a routerLink="/overview">Overview of Expenses</a></li>
+        <li><a routerLink="/savings">Check Savings Status</a></li>
+        <li><button (click)="openMotivationModal()" class="button-link">Get Motivated</button></li>
+        <li><button (click)="logout()" class="button-link">Logout</button></li>
+      </ul>
+    </div>
+    <div class="icon-container">
+      <i class="fas fa-piggy-bank"></i> <!-- Correct Font Awesome class -->
+    </div>
+    <div class="financial-message">
+      We help you to keep<br>an eye on your finances!
+    </div>
+
+    <div class="definitions-container">
+      <div class="definition">
+        <h2>Expenses</h2>
+        <p>Expenses are the costs incurred to generate revenue. They are deducted from your income and may include
+          bills, rent, groceries, etc.</p>
+      </div>
+      <div class="definition">
+        <h2>Income</h2>
+        <p>Income is the money you earn. It can come from various sources such as salaries, wages, investments, or
+          business profits.</p>
+      </div>
+      <div class="definition">
+        <h2>Savings Status</h2>
+        <p>Your savings status indicates how much you have saved compared to your financial goals. It helps you track
+          your progress towards achieving your savings targets.</p>
+      </div>
+    </div>
   </div>
-</div>
+
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Add Additional Income</h2>
+      <form id="incomeForm">
+        <label for="income">Income Amount:</label>
+        <input type="text" id="income" name="income"><br><br>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

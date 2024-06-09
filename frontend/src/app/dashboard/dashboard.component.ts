@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
     private dialog: MatDialog,
     private budgetService: BudgetService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const storedUserId = localStorage.getItem('userId');
@@ -54,9 +54,14 @@ export class DashboardComponent implements OnInit {
       console.error('Error fetching motivational quote:', error);
     });
   }
+  openIncomeModal(): void {
+    // Logic to open the modal for adding additional income
+    // You can implement similar logic as in openMotivationModal()
+  }
 
   logout(): void {
     localStorage.removeItem('userId');
     this.router.navigate(['/']);
   }
 }
+

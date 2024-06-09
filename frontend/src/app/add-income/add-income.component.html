@@ -1,16 +1,23 @@
 <div class="container">
-  <h2>Add Income</h2>
+  <h2>Add Additional Income (EUR)</h2>
+
   <form [formGroup]="incomeForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="amount">Amount</label>
-      <input type="number" id="amount" formControlName="amount" class="form-control" />
+      <input type="number" id="amount" formControlName="amount" class="form-control" required placeholder="Amount">
     </div>
     <button type="submit" class="btn btn-primary" [disabled]="!incomeForm.valid">Add Income</button>
   </form>
   <div *ngIf="successMessage" class="alert alert-success mt-3">
     {{ successMessage }} <br />
+
     Total Income: {{ totalIncome }}
   </div>
   <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
   <button *ngIf="successMessage" class="btn btn-secondary mt-3" (click)="addAnotherIncome()">Add Another Income</button>
+  <button class="btn btn-secondary" (click)="goback()">Back</button>
+</div>
+
+<div class="motivating-quote">
+  More important than the "how" we achieve financial freedom, is the "why".<br>Find your reasons why you want to be free
+  and wealthy! - Robert Kiyosaki
 </div>
