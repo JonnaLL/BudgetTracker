@@ -1,14 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+
+export interface Category {
+  id: number;
+  name: string;
+  expenses: any[];
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class BudgetService {
-  private apiUrl = 'http://localhost:8080/api/budget';
+  private apiUrl = 'http://localhost:8080/api';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -21,14 +27,14 @@ export class BudgetService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
-    console.log('Authorization Headers:', headers); // Debugging line
+    console.log('Authorization Headers:', headers); 
     return headers;
   }
 
   enterInitialIncome(amount: number, userId: number): Observable<any> {
     const headers = this.getAuthHeaders();
     const body = { amount, userId };
-    return this.http.post(`${this.apiUrl}/income`, body, { headers }).pipe(
+    return this.http.post(`${this.apiUrl}/budget/income`, body, { headers }).pipe(
       catchError(this.handleError)
     );
   }
@@ -36,55 +42,51 @@ export class BudgetService {
   setSavingsGoal(goalPercentage: number, userId: number): Observable<any> {
     const headers = this.getAuthHeaders();
     const body = { savingsGoalPercentage: goalPercentage, userId };
-    return this.http.post(`${this.apiUrl}/savings`, body, { headers }).pipe(
+    return this.http.post(`${this.apiUrl}/budget/savings`, body, { headers }).pipe(
       catchError(this.handleError)
     );
   }
 
-  addIncome(income: { amount: number, userId: number }): Observable<any> {
+  addIncome(recordData: any): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.post(`${this.apiUrl}/income`, income, { headers }).pipe(
+    return this.http.post(`${this.apiUrl}/budget/income`, recordData, { headers }).pipe(
       catchError(this.handleError)
     );
   }
 
-  getTotalIncome(userId: number): Observable<number> {
+  getTotalIncome(userId: number): Observable<any> { 
     const headers = this.getAuthHeaders();
-    return this.http.get<number>(`${this.apiUrl}/total-income/${userId}`, { headers }).pipe(
+    return this.http.get<any>(`${this.apiUrl}/budget/total-income/${userId}`, { headers }).pipe(
       catchError(this.handleError)
     );
   }
 
-  getAllCategories(): Observable<string[]> {
+  getAllCategories(): Observable<Category[]> {
     const headers = this.getAuthHeaders();
-    return this.http.get<string[]>(`${this.apiUrl}/categories`, { headers }).pipe(
+    return this.http.get<Category[]>(`${this.apiUrl}/categories`, { headers }).pipe(
       catchError(this.handleError)
     );
   }
 
-  addExpense(amount: number, category: string, userId: number): Observable<any> {
+  addExpense(amount: number, categoryId: number, userId: number): Observable<any> {
     const headers = this.getAuthHeaders();
-    const expenseData = { amount, category, userId };
-    return this.http.post<any>(`${this.apiUrl}/expense`, expenseData, { headers }).pipe(
+    const expense = { amount, categoryId, userId };
+    console.log('Authorization Headers:', headers);
+    return this.http.post(`${this.apiUrl}/budget/expense`, expense, { headers }).pipe(
       catchError(this.handleError)
     );
-  }
-
-  private handleError(error: any) {
-    console.error('An error occurred', error);
-    return throwError(error.message || 'Server Error');
   }
 
   getOverview(userId: number): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.get<any>(`${this.apiUrl}/overview/${userId}`, { headers }).pipe(
+    return this.http.get<any>(`${this.apiUrl}/budget/overview/${userId}`, { headers }).pipe(
       catchError(this.handleError)
     );
   }
 
   checkSavings(userId: number): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.get<any>(`${this.apiUrl}/check-savings/${userId}`, { headers }).pipe(
+    return this.http.get<any>(`${this.apiUrl}/budget/check-savings/${userId}`, { headers }).pipe(
       catchError(this.handleError)
     );
   }
@@ -94,5 +96,16 @@ export class BudgetService {
     return this.http.get<any>(`${this.apiUrl}/motivation/random-message`, { headers }).pipe(
       catchError(this.handleError)
     );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.error('An error occurred:', error); 
+    let errorMessage = 'Unknown error!';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    return throwError(errorMessage);
   }
 }
