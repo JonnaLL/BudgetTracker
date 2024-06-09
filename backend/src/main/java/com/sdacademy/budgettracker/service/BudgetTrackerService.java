@@ -12,7 +12,7 @@ public interface BudgetTrackerService {
     Double getTotalIncome(Long userId);
     Double calculateTotalExpenses(Long userId);
     void addExpense(BudgetTrackerRecordDTO recordDTO);
-    void addAdditionalIncome(BudgetTrackerRecordDTO recordDTO);
+    void addAdditionalIncome(Double amount, Long userId);
     void checkSavingsStatus(Long userId);
     Object getOverviewOfExpenses(Long userId);
 }

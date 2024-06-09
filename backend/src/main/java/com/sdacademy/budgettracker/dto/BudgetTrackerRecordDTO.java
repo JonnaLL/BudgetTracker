@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @ToString
@@ -29,6 +30,11 @@ public class BudgetTrackerRecordDTO {
     private String email;
     private String password;
     private Double savingsGoalPercentage;
+
+    @NotNull(message = "Category ID is mandatory")
+    private Long categoryId;
+
+    @NotNull(message = "User ID is mandatory")
     private Long userId;
 
 }

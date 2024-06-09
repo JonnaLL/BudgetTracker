@@ -15,14 +15,14 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
-
+        List<Category> categories = categoryRepository.findAll();
+        System.out.println("Fetched categories: " + categories);
+        return categories;
     }
 
     public void addCategory(Category category) throws Exception {
         try {
             categoryRepository.save(category);
-
         } catch (DataIntegrityViolationException e) {
             throw new Exception("Failed to add category: " + e.getMessage());
         }

@@ -1,13 +1,12 @@
 package com.sdacademy.budgettracker.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
 @Entity
 @Getter
 @Setter
-
 @Table(name = "income")
 public class Income {
     @Id
@@ -20,5 +19,10 @@ public class Income {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+    @Override
+    public String toString() {
+        return "Income{id=" + id + ", amount=" + amount + "}";
 
+
+    }
 }

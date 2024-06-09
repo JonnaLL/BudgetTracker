@@ -1,21 +1,20 @@
 package com.sdacademy.budgettracker.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@Entity
 @Getter
 @Setter
-
+@Entity
 @Table(name = "expense")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "category", nullable = false)
-    private String category;
 
     @Column(name = "amount", nullable = false)
     private Double amount;
@@ -24,4 +23,16 @@ public class Expense {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    @JsonBackReference
+    private Category category;
+
+    @Override
+    public String toString() {
+        return "Expense{" +
+                "id=" + id +
+                ", amount=" + amount +
+                '}';
     }
+}

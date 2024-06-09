@@ -1,14 +1,14 @@
 package com.sdacademy.budgettracker.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
-@Data
-@Entity
 @Getter
 @Setter
-
+@Entity
 @Table(name = "user")
 public class User {
     @Id
@@ -27,12 +27,18 @@ public class User {
     private Double totalIncome;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Expense> expenses;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Income> incomes;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Savings savings;
-
+    @Override
+    public String toString() {
+        return "User{id=" + id + ", username='" + username + "', email='" + email + "'}";
+    }
 }

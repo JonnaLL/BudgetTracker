@@ -4,14 +4,8 @@ import com.sdacademy.budgettracker.converter.ExpenseDTOToEntityConverter;
 import com.sdacademy.budgettracker.converter.IncomeDTOToEntityConverter;
 import com.sdacademy.budgettracker.converter.SavingsDTOToEntityConverter;
 import com.sdacademy.budgettracker.dto.BudgetTrackerRecordDTO;
-import com.sdacademy.budgettracker.entity.Expense;
-import com.sdacademy.budgettracker.entity.Income;
-import com.sdacademy.budgettracker.entity.Savings;
-import com.sdacademy.budgettracker.entity.User;
-import com.sdacademy.budgettracker.repository.ExpenseRepository;
-import com.sdacademy.budgettracker.repository.IncomeRepository;
-import com.sdacademy.budgettracker.repository.SavingsRepository;
-import com.sdacademy.budgettracker.repository.UserRepository;
+import com.sdacademy.budgettracker.entity.*;
+import com.sdacademy.budgettracker.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +27,9 @@ public class BudgetTrackerServiceImpl implements BudgetTrackerService {
 
     @Autowired
     private ExpenseRepository expenseRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private IncomeRepository incomeRepository;
@@ -114,15 +111,41 @@ public class BudgetTrackerServiceImpl implements BudgetTrackerService {
 
     @Override
     public void addExpense(BudgetTrackerRecordDTO recordDTO) {
-        Expense expense = expenseConverter.convert(recordDTO);
+        Expense expense = new Expense();
+        expense.setAmount(recordDTO.getAmount());
+
+        User user = userRepository.findById(recordDTO.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        expense.setUser(user);
+
+        Category category = categoryRepository.findById(recordDTO.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+        expense.setCategory(category);
+
         expenseRepository.save(expense);
     }
-
     @Override
-    public void addAdditionalIncome(BudgetTrackerRecordDTO recordDTO) {
-        Income income = incomeConverter.convert(recordDTO);
+    @Transactional
+    public void addAdditionalIncome(Double amount, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Income income = new Income();
+        income.setAmount(amount);
+        income.setUser(user);
         incomeRepository.save(income);
+
+
+        System.out.println("Saved Income: " + income);
+        double totalIncome = incomeRepository.findTotalIncomeByUserId(userId).orElse(0.0);
+
+        System.out.println("Total Income before updating user: " + totalIncome);
+
+        user.setTotalIncome(totalIncome);
+        userRepository.save(user);
+        System.out.println("Updated User's Total Income: " + user.getTotalIncome());
     }
+
 
     @Override
     public void checkSavingsStatus(Long userId) {
