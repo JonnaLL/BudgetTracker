@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,9 +9,14 @@ import { Observable } from 'rxjs';
 export class CategoryService {
   private apiUrl = 'http://localhost:8080/api/categories';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   getAllCategories(): Observable<string[]> {
-    return this.http.get<string[]>(this.apiUrl);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+
+    return this.http.get<string[]>(this.apiUrl, { headers });
   }
 }

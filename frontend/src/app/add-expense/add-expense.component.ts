@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BudgetService } from '../../services/budget.service';
+import { BudgetService, Category } from '../../services/budget.service'; 
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -9,15 +9,21 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./add-expense.component.css']
 })
 export class AddExpenseComponent implements OnInit {
-  expenseForm: FormGroup = this.fb.group({
-    amount: ['', Validators.required],
-    category: ['', Validators.required]
-  });
-  categories: string[] = [];
+  expenseForm: FormGroup;
+  categories: Category[] = [];
   successMessage: string = '';
   errorMessage: string = '';
 
-  constructor(private fb: FormBuilder, private budgetService: BudgetService, private authService: AuthService) {}
+  constructor(
+    private fb: FormBuilder,
+    private budgetService: BudgetService,
+    private authService: AuthService
+  ) {
+    this.expenseForm = this.fb.group({
+      amount: ['', [Validators.required, Validators.min(0.01)]],
+      category: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     this.loadCategories();
@@ -25,11 +31,13 @@ export class AddExpenseComponent implements OnInit {
 
   loadCategories() {
     this.budgetService.getAllCategories().subscribe(
-      (data: string[]) => {
+      (data: Category[]) => {
         this.categories = data;
+        console.log('Categories loaded successfully:', data);
       },
       (error) => {
         this.errorMessage = 'Failed to load categories';
+        console.error('Error loading categories:', error);
       }
     );
   }
@@ -43,10 +51,12 @@ export class AddExpenseComponent implements OnInit {
           (response) => {
             this.successMessage = 'Expense added successfully!';
             this.errorMessage = '';
+            this.expenseForm.reset();
           },
           (error) => {
             this.errorMessage = 'Failed to add expense';
             this.successMessage = '';
+            console.error('Error adding expense:', error);
           }
         );
       } else {
