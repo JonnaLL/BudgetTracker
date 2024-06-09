@@ -9,7 +9,7 @@ This is a simple Java application for managing a budget. People need to keep an 
 - **Insert additional income**
 - **Set desired saving goal**
 - **Insert expenses by category**
-- **Overview of expenses**w
+- **Overview of expenses**
 - **See motivating message**
 
 ## Technologies Used
