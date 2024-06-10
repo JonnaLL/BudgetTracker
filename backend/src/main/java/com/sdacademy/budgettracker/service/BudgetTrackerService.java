@@ -3,6 +3,8 @@ package com.sdacademy.budgettracker.service;
 import com.sdacademy.budgettracker.dto.BudgetTrackerRecordDTO;
 import com.sdacademy.budgettracker.entity.User;
 
+import java.util.Map;
+
 public interface BudgetTrackerService {
     void createRecord(BudgetTrackerRecordDTO recordDTO);
     User login(String username, String password);
@@ -13,6 +15,6 @@ public interface BudgetTrackerService {
     Double calculateTotalExpenses(Long userId);
     void addExpense(BudgetTrackerRecordDTO recordDTO);
     void addAdditionalIncome(Double amount, Long userId);
-    void checkSavingsStatus(Long userId);
-    Object getOverviewOfExpenses(Long userId);
+    Map<String, Object> checkSavingsStatus(Long userId);
+    Map<String, Object> getOverviewOfExpenses(Long userId);
 }

@@ -82,11 +82,27 @@ public class BudgetTrackerController {
 
 
     @GetMapping("/overview/{userId}")
-    public ResponseEntity<?> getOverview(@PathVariable Long userId) {
+    public ResponseEntity<Map<String, Object>> getOverview(@PathVariable Long userId) {
         try {
-            return ResponseEntity.ok(budgetTrackerService.getOverviewOfExpenses(userId));
+            Map<String, Object> overview = budgetTrackerService.getOverviewOfExpenses(userId);
+            return ResponseEntity.ok(overview);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to get overview: " + e.getMessage());
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Failed to get overview: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
+
+    @GetMapping("/check-savings/{userId}")
+    public ResponseEntity<Map<String, Object>> checkSavings(@PathVariable Long userId) {
+        try {
+            Map<String, Object> savingsStatus = budgetTrackerService.checkSavingsStatus(userId);
+            return ResponseEntity.ok(savingsStatus);
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Failed to check savings status: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+    }
+
 }

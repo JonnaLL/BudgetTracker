@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -84,11 +85,30 @@ public class BudgetTrackerServiceImpl implements BudgetTrackerService {
     }
 
     @Override
-    public Object getOverviewOfExpenses(Long userId) {
+    public Map<String, Object> getOverviewOfExpenses(Long userId) {
         List<Expense> expenses = expenseRepository.findAllByUserId(userId);
-        return expenses.stream()
-                .map(expense -> Map.of("category", expense.getCategory(), "amount", expense.getAmount()))
-                .collect(Collectors.toList());
+        double totalExpenses = expenses.stream().mapToDouble(Expense::getAmount).sum();
+
+        Map<String, Double> categoryTotals = expenses.stream()
+                .collect(Collectors.groupingBy(expense -> expense.getCategory().getName(), Collectors.summingDouble(Expense::getAmount)));
+
+        List<Map<String, Object>> overview = categoryTotals.entrySet().stream()
+                .map(entry -> {
+                    Map<String, Object> categoryOverview = new HashMap<>();
+                    categoryOverview.put("category", entry.getKey());
+                    categoryOverview.put("amount", entry.getValue());
+                    categoryOverview.put("percentage", (entry.getValue() / totalExpenses) * 100);
+                    return categoryOverview;
+                }).collect(Collectors.toList());
+
+        double totalIncome = getTotalIncome(userId);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("totalExpenses", totalExpenses);
+        response.put("totalIncome", totalIncome);
+        response.put("categories", overview);
+
+        return response;
     }
 
     @Override
@@ -148,14 +168,31 @@ public class BudgetTrackerServiceImpl implements BudgetTrackerService {
 
 
     @Override
-    public void checkSavingsStatus(Long userId) {
+    public Map<String, Object> checkSavingsStatus(Long userId) {
         double totalIncome = getTotalIncome(userId);
         double totalExpenses = calculateTotalExpenses(userId);
-        double savingsPercentage = 100 - (totalExpenses * 100 / totalIncome);
-        double savingsAmount = totalIncome - totalExpenses;
+        double savingsPercentage = Math.round(100 - (totalExpenses * 100 / totalIncome));
+        double savingsAmount = Math.round(totalIncome - totalExpenses);
 
-        // Display savings status
-        System.out.println("At the moment your savings percentage is " + savingsPercentage
-                + "% and you have saved " + savingsAmount + " euros");
+        Map<String, Object> response = new HashMap<>();
+        response.put("savingsPercentage", savingsPercentage);
+        response.put("savingsAmount", savingsAmount);
+        response.put("totalIncome", totalIncome);
+        response.put("totalExpenses", totalExpenses);
+
+        double goalPercentage = savingsRepository.findLatestSavingsGoalByUserId(userId)
+                .orElse(20.0);
+
+        response.put("goalPercentage", goalPercentage);
+
+        if (savingsPercentage < goalPercentage) {
+            response.put("message", "Your expenses are too high! Try to save more.");
+            double maxSpending = Math.round(totalIncome * (1 - goalPercentage / 100));
+            response.put("advice", "To stay on track, don't spend over " + maxSpending + " euros.");
+        } else {
+            response.put("message", "Well done! You are on the right track!");
+        }
+
+        return response;
     }
 }
