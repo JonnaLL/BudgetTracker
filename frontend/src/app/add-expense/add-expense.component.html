@@ -2,7 +2,7 @@
   <h2>Add Expense</h2>
   <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="amount">Amount</label>
+      <label for="amount">Amount (EUR)</label>
       <input type="number" id="amount" formControlName="amount" class="form-control" />
       <div *ngIf="expenseForm.controls['amount'].invalid && expenseForm.controls['amount'].touched" class="text-danger">
         Please enter a valid amount
@@ -13,7 +13,8 @@
       <select id="category" formControlName="category" class="form-control">
         <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
       </select>
-      <div *ngIf="expenseForm.controls['category'].invalid && expenseForm.controls['category'].touched" class="text-danger">
+      <div *ngIf="expenseForm.controls['category'].invalid && expenseForm.controls['category'].touched"
+        class="text-danger">
         Please select a category
       </div>
     </div>
@@ -22,4 +23,27 @@
   <button type="button" class="btn btn-secondary mt-3" (click)="goBack()">Back</button>
   <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
   <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+</div>
+<div class="tips-container">
+  <div class="tip">
+    <h2>TIP 1 Set Spending Limits</h2>
+    <p>EEncourage users to set specific spending limits for different categories like groceries, dining out,
+      entertainment, and more. Establishing these limits can aid them in adhering to their budget and fostering greater
+      mindfulness regarding their expenses. Incorporate a convenient feature enabling users to directly input their
+      allocated budget for each category on the expense form..</p>
+  </div>
+  <div class="tip">
+    <h2>TIP 2 Track Daily Expenses</h2>
+    <p>Suggest users track their daily expenses to identify patterns and areas where they can cut back. Provide a
+      section on the expense form where users can enter additional details about their daily expenses, such as the item
+      purchased, cost, and category. This can help users visualize their spending habits and make informed decisions
+      about where to cut expenses.</p>
+  </div>
+  <div class="tip">
+    <h2>TIP 3 Compare Prices - Shop Smart</h2>
+    <p>Encourage users to compare prices and shop smart to get the best deals on their purchases. You can include a
+      feature that allows users to input the price of an item and compare it with prices from other retailers or online
+      stores. Additionally, provide tips on how to save money while shopping, such as using coupons, buying in bulk, or
+      waiting for sales.</p>
+  </div>
 </div>
