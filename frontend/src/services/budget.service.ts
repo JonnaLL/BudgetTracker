@@ -10,6 +10,12 @@ export interface Category {
   expenses: any[];
 }
 
+export interface CategoryOverview {
+  category: string;
+  amount: number;
+  percentage: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -62,8 +68,7 @@ export class BudgetService {
   }
 
   getAllCategories(): Observable<Category[]> {
-    const headers = this.getAuthHeaders();
-    return this.http.get<Category[]>(`${this.apiUrl}/categories`, { headers }).pipe(
+    return this.http.get<Category[]>(`${this.apiUrl}/categories`).pipe(
       catchError(this.handleError)
     );
   }
@@ -71,15 +76,14 @@ export class BudgetService {
   addExpense(amount: number, categoryId: number, userId: number): Observable<any> {
     const headers = this.getAuthHeaders();
     const expense = { amount, categoryId, userId };
-    console.log('Authorization Headers:', headers);
     return this.http.post(`${this.apiUrl}/budget/expense`, expense, { headers }).pipe(
       catchError(this.handleError)
     );
   }
 
-  getOverview(userId: number): Observable<any> {
+  getOverview(userId: number): Observable<{ totalExpenses: number; categories: CategoryOverview[] }> {
     const headers = this.getAuthHeaders();
-    return this.http.get<any>(`${this.apiUrl}/budget/overview/${userId}`, { headers }).pipe(
+    return this.http.get<{ totalExpenses: number; categories: CategoryOverview[] }>(`${this.apiUrl}/budget/overview/${userId}`, { headers }).pipe(
       catchError(this.handleError)
     );
   }
@@ -87,9 +91,10 @@ export class BudgetService {
   checkSavings(userId: number): Observable<any> {
     const headers = this.getAuthHeaders();
     return this.http.get<any>(`${this.apiUrl}/budget/check-savings/${userId}`, { headers }).pipe(
-      catchError(this.handleError)
+        catchError(this.handleError)
     );
-  }
+}
+
 
   getMotivationalQuote(): Observable<any> {
     const headers = this.getAuthHeaders();

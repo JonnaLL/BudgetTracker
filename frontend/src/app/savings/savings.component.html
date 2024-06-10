@@ -1,1 +1,10 @@
-<p>savings works!</p>
+<div class="container">
+    <h2>Savings Status</h2>
+    <div *ngIf="savingsStatus">
+      <p>At the moment, your savings percentage is <strong>{{ savingsStatus.savingsPercentage }}%</strong> and you have saved <strong>{{ savingsStatus.savingsAmount }} euros</strong>.</p>
+      <p>{{ savingsStatus.message }}</p>
+      <p *ngIf="savingsStatus.advice">{{ savingsStatus.advice }}</p>
+    </div>
+    <button class="btn btn-secondary mt-3" (click)="goBack()">Back</button>
+  </div>
+  

@@ -1,66 +1,51 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  position: relative;
+}
+
+.icon-background::before {
+  content: '\f155 \f0d6 \f0b1 \f51d \f53e';
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 5em;
+  color: rgba(165, 76, 135, 0.1);
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  white-space: nowrap;
+  z-index: -1;
+}
+
+.icon-background::after {
+  content: '\f53e \f3d1 \f155 \f0b1 \f51d';
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 5em;
+  color: rgba(165, 76, 135, 0.1);
+  position: absolute;
+  bottom: 20%;
+  right: 10%;
+  white-space: nowrap;
+  z-index: -1;
+}
+
 .container h2 {
   text-align: center;
-  color: #ff69b4;
-  margin-top: 20px;
-
-}
-
-.container th {
-  color: #ff69b4;
-
-}
-
-.div {
-  padding: 10px;
-  border: 1px solid #ccc;
-  margin: 10px 0;
-}
-
-.container {
-  margin-top: 20px;
-  text-align: center;
-}
-
-table {
-  width: 40%;
-  border-collapse: collapse;
-  border-spacing: 0;
-  text-align: center;
-  margin: 0 auto;
-
-}
-
-th,
-td {
-  
-  padding: 8px 4px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
   color: #a54c87;
-  font-size: 25px;
+  margin-top: 20px;
+  font-size: 2em;
+  position: relative;
 }
 
-th {
-  background-color: #f2f2f2;
-  font-weight: bold;
-}
-
-th:nth-child(1),
-td:nth-child(1) {
-  min-width: 150px;
-  /* Minimum width for the Category column */
-
-}
-
-th:nth-child(2),
-td:nth-child(2) {
-  min-width: 100px;
-  /* Minimum width for the Amount column */
-  text-align: right;
-  /* Right-align the Amount column */
-}
-
-h2::after {
+.container h2::after {
   content: '';
   display: block;
   width: 100px;
@@ -68,6 +53,57 @@ h2::after {
   background: #a54c87;
   margin: 10px auto 0;
   border-radius: 2px;
+}
+
+.container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.container th,
+.container td {
+  padding: 12px 15px;
+  text-align: right;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+  color: #333;
+}
+
+.container th {
+  background-color: #f2f2f2;
+  color: #a54c87;
+  font-weight: bold;
+}
+
+.container td:first-child,
+.container th:first-child {
+  text-align: left;
+}
+
+.container th:nth-child(2),
+.container td:nth-child(2) {
+  padding-right: 20px;
+}
+
+.container th:nth-child(3),
+.container td:nth-child(3) {
+  padding-left: 20px;
+}
+
+.container .odd-row {
+  background-color: #f9f9f9;
+}
+
+.container .even-row {
+  background-color: #ffffff;
+}
+
+.total-expenses {
+  margin-top: 20px;
+  color: #a54c87;
+  font-size: 1.5em;
+  text-align: center;
 }
 
 .btn {
@@ -82,9 +118,10 @@ h2::after {
   width: 100%;
   transition: background-color 0.3s ease;
   display: block;
-  margin: 0 auto;
-  max-width: 400px;
+  margin: 20px auto 0;
+  max-width: 200px;
 }
+
 .btn:hover {
   background-color: #a54c87;
 }

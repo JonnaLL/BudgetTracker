@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BudgetService } from '../../services/budget.service';
+import { BudgetService, CategoryOverview } from '../../services/budget.service';
 import { Location } from '@angular/common';
 
 @Component({
@@ -8,7 +8,8 @@ import { Location } from '@angular/common';
   styleUrls: ['./overview.component.css']
 })
 export class OverviewComponent implements OnInit {
-  overview: { category: string, amount: number }[] = [];
+  overview: CategoryOverview[] = [];
+  totalExpenses: number = 0;
   savingsGoal: number | null = null;
 
   constructor(private budgetService: BudgetService, private location: Location) { }
@@ -16,12 +17,11 @@ export class OverviewComponent implements OnInit {
   ngOnInit(): void {
     const userId = Number(localStorage.getItem('userId'));
     this.budgetService.getOverview(userId).subscribe({
-      next: (data: any) => this.overview = data,
+      next: (data: any) => {
+        this.overview = data.categories;
+        this.totalExpenses = data.totalExpenses; 
+      },
       error: (error: any) => console.error('Error fetching overview:', error)
-    });
-    this.budgetService.checkSavings(userId).subscribe({
-      next: (goal: any) => this.savingsGoal = goal,
-      error: (error: any) => console.error('Error fetching savings goal:', error)
     });
   }
 
