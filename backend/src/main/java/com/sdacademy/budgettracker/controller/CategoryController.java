@@ -15,14 +15,18 @@ import java.util.List;
 public class CategoryController {
 
     @Autowired
-    private CategoryService service;
+    private CategoryService categoryService;
 
     @GetMapping
-    public List<Category> getAllCategories() {
-        return service.getAllCategories();
+    public ResponseEntity<List<Category>> getAllCategories() {
+        List<Category> categories = categoryService.getAllCategories();
+        categories.forEach(category -> System.out.println("Category: " + category.getName()));
+        System.out.println("Returning categories: " + categories);
+        return ResponseEntity.ok(categories);
     }
+}
 
-    @PostMapping
+    /*@PostMapping
     public ResponseEntity<String> addCategory(@Valid @RequestBody Category category) {
         try {
             service.addCategory(category);
@@ -32,3 +36,4 @@ public class CategoryController {
         }
     }
 }
+*/

@@ -23,16 +23,31 @@ public class BudgetTrackerController {
     }
 
     @PostMapping("/income")
-    public ResponseEntity<Map<String, String>> enterInitialIncome(@Valid @RequestBody Map<String, Object> recordData) {
+    public ResponseEntity<Map<String, String>> addIncome(@Valid @RequestBody Map<String, Object> recordData) {
         Map<String, String> response = new HashMap<>();
         try {
             Double amount = Double.valueOf(recordData.get("amount").toString());
             Long userId = Long.valueOf(recordData.get("userId").toString());
-            budgetTrackerService.enterInitialIncome(amount, userId);
+            budgetTrackerService.addAdditionalIncome(amount, userId);
+            Double totalIncome = budgetTrackerService.getTotalIncome(userId);
             response.put("message", "Income saved successfully!");
+            response.put("totalIncome", totalIncome.toString());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.put("message", "Failed to save income: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+
+    @GetMapping("/total-income/{userId}")
+    public ResponseEntity<Map<String, String>> getTotalIncome(@PathVariable Long userId) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            Double totalIncome = budgetTrackerService.getTotalIncome(userId);
+            response.put("totalIncome", totalIncome.toString());
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("message", "Failed to fetch total income: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
@@ -55,6 +70,7 @@ public class BudgetTrackerController {
     public ResponseEntity<Map<String, String>> addExpense(@Valid @RequestBody BudgetTrackerRecordDTO recordDTO) {
         Map<String, String> response = new HashMap<>();
         try {
+            System.out.println("Received BudgetTrackerRecordDTO: " + recordDTO);
             budgetTrackerService.addExpense(recordDTO);
             response.put("message", "Expense added successfully!");
             return ResponseEntity.ok(response);
@@ -64,12 +80,29 @@ public class BudgetTrackerController {
         }
     }
 
+
     @GetMapping("/overview/{userId}")
-    public ResponseEntity<?> getOverview(@PathVariable Long userId) {
+    public ResponseEntity<Map<String, Object>> getOverview(@PathVariable Long userId) {
         try {
-            return ResponseEntity.ok(budgetTrackerService.getOverviewOfExpenses(userId));
+            Map<String, Object> overview = budgetTrackerService.getOverviewOfExpenses(userId);
+            return ResponseEntity.ok(overview);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to get overview: " + e.getMessage());
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Failed to get overview: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
+
+    @GetMapping("/check-savings/{userId}")
+    public ResponseEntity<Map<String, Object>> checkSavings(@PathVariable Long userId) {
+        try {
+            Map<String, Object> savingsStatus = budgetTrackerService.checkSavingsStatus(userId);
+            return ResponseEntity.ok(savingsStatus);
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Failed to check savings status: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+    }
+
 }

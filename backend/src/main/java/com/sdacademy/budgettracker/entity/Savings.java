@@ -22,4 +22,12 @@ public class Savings {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Override
+    public String toString() {
+        return "Savings{" +
+                "id=" + id +
+                ", savingsGoalPercentage=" + savingsGoalPercentage +
+                ", user=" + user +
+                '}';
+    }
 }

@@ -1,18 +1,23 @@
 <div class="container">
-  <h2>Overview of Expenses</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Category</th>
-        <th>Amount (EUR)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let expense of overview">
-        <td>{{ expense.category }}</td>
-        <td>{{ expense.amount }}</td>
-      </tr>
-    </tbody>
-  </table>
-  <button class="btn btn-secondary mt-3" (click)="goBack()">Back</button>
+  <div class="icon-background">
+    <h2>Overview of Expenses</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Amount (EUR)</th>
+          <th>Percentage (%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let expense of overview">
+          <td>{{ expense.category }}</td>
+          <td>{{ expense.amount | number: '1.2-2' }}</td>
+          <td>{{ expense.percentage | number: '1.2-2' }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <h3 class="total-expenses">Total Expenses: {{ totalExpenses | number: '1.2-2' }} EUR</h3>
+    <button class="btn btn-secondary mt-3" (click)="goBack()">Back</button>
+  </div>
 </div>

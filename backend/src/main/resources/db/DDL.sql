@@ -6,21 +6,18 @@ CREATE TABLE IF NOT EXISTS user (
     password VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS expense (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    category_id BIGINT NOT NULL,
-    amount DECIMAL(10,2) NOT NULL,
-    date DATE NOT NULL,
-    description VARCHAR(255),
-    user_id BIGINT,
-    FOREIGN KEY (user_id) REFERENCES users(id)
-
-);
-
 CREATE TABLE IF NOT EXISTS category (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL UNIQUE
+);
 
+CREATE TABLE IF NOT EXISTS expense (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    amount DECIMAL(10,2) NOT NULL,
+    user_id BIGINT NOT NULL,
+    category_id BIGINT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (category_id) REFERENCES category(id)
 );
 
 CREATE TABLE IF NOT EXISTS income (

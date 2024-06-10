@@ -51,8 +51,8 @@ VALUES ('A wise person should have money in their head, but not in their heart',
        ('Disneyland is a work of love. We did not go into Disneyland just with the idea of making money','Walt Disney'),
        ('Do not focus on money, instead focus on a problem that needs to be solved for the world. Money will follow you as a bi-product','Manoj Arora');
 
-INSERT INTO category (name)
-VALUES ('Food'),
+INSERT INTO category (name) VALUES
+       ('Food'),
        ('Taxes'),
        ('Entertainment'),
        ('Clothing'),

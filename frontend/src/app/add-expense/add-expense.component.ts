@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BudgetService, Category } from '../../services/budget.service'; 
 import { AuthService } from '../../services/auth.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-add-expense',
@@ -17,7 +18,8 @@ export class AddExpenseComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private budgetService: BudgetService,
-    private authService: AuthService
+    private authService: AuthService,
+    private location: Location
   ) {
     this.expenseForm = this.fb.group({
       amount: ['', [Validators.required, Validators.min(0.01)]],
@@ -63,5 +65,9 @@ export class AddExpenseComponent implements OnInit {
         this.errorMessage = 'User not authenticated';
       }
     }
+  }
+
+  goBack() {
+    this.location.back();
   }
 }
