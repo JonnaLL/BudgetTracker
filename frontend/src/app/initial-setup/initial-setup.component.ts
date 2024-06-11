@@ -36,7 +36,7 @@ export class InitialSetupComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   onSubmitIncome(): void {
     if (this.incomeForm.valid) {

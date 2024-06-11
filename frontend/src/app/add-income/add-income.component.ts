@@ -22,7 +22,7 @@ export class AddIncomeComponent implements OnInit {
     private location: Location
   ) {
     this.incomeForm = this.fb.group({
-      amount: ['', Validators.required]
+      amount: ['', [Validators.required, Validators.min(0.01)]]
     });
   }
 
@@ -34,9 +34,9 @@ export class AddIncomeComponent implements OnInit {
     const userId = this.authService.getCurrentUserId();
     if (userId !== null) {
       this.budgetService.getTotalIncome(userId).subscribe(
-        (total: any) => { 
-          this.totalIncome = total.totalIncome; 
-          console.log(`Total income: ${this.totalIncome}`); 
+        (total: any) => {
+          this.totalIncome = total.totalIncome;
+          console.log(`Total income: ${this.totalIncome}`);
         },
         (error: any) => {
           this.errorMessage = 'Failed to load total income';
@@ -64,7 +64,19 @@ export class AddIncomeComponent implements OnInit {
       } else {
         this.errorMessage = 'User not authenticated';
       }
+    } else {
+      this.markFormGroupTouched(this.incomeForm);
+      this.errorMessage = 'Please enter a valid amount.';
     }
+  }
+
+  markFormGroupTouched(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      if (control) {
+        control.markAsTouched();
+      }
+    });
   }
 
   addAnotherIncome() {

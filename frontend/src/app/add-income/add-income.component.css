@@ -125,3 +125,21 @@ button:disabled {
   border-radius: 50%;
 
 }
+
+.alert {
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.alert-success {
+  color: #a54c87;
+  background-color: transparent
+}
+
+.text-danger {
+  color: red;
+  font-size: 1em;
+
+}

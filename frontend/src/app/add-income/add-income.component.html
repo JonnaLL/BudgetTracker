@@ -4,6 +4,10 @@
   <form [formGroup]="incomeForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <input type="number" id="amount" formControlName="amount" class="form-control" required placeholder="Amount">
+      <div *ngIf="incomeForm.controls['amount'].invalid && incomeForm.controls['amount'].touched" class="text-danger">
+        <div *ngIf="incomeForm.controls['amount'].errors?.['required']">Please enter an amount</div>
+        <div *ngIf="incomeForm.controls['amount'].errors?.['min']">Please enter a positive number</div>
+      </div>
     </div>
     <button type="submit" class="btn btn-primary" [disabled]="!incomeForm.valid">Add Income</button>
   </form>

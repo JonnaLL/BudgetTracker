@@ -12,33 +12,39 @@
     <h1>Budget Tracker Setup</h1>
     <p>Please enter your initial income and set a savings goal</p>
   </div>
-
   <div class="setup-container">
-    <!-- Form for Initial Income -->
     <form [formGroup]="incomeForm" (ngSubmit)="onSubmitIncome()">
-
       <div>
         <label for="amount">Initial Income (EUR):</label>
         <input type="number" id="amount" formControlName="amount" required>
+        <div *ngIf="incomeForm.controls['amount'].invalid && incomeForm.controls['amount'].touched" class="text-danger">
+          <div *ngIf="incomeForm.controls['amount'].hasError('required')">Please enter an initial income amount</div>
+          <div *ngIf="incomeForm.controls['amount'].value < 0">Initial income cannot be negative</div>
+        </div>
       </div>
       <button type="submit">Save Initial Income</button>
+      <div *ngIf="incomeErrorMessage" class="error-message">{{ incomeErrorMessage }}</div>
+      <div *ngIf="incomeSuccessMessage" class="success-message">{{ incomeSuccessMessage }}</div>
     </form>
-    <div *ngIf="incomeErrorMessage" class="error-message">{{ incomeErrorMessage }}</div>
-    <div *ngIf="incomeSuccessMessage" class="success-message">{{ incomeSuccessMessage }}</div>
 
     <div *ngIf="incomeSubmitted">
-      <!-- Form for Savings Goal -->
       <form [formGroup]="savingsForm" (ngSubmit)="onSubmitSavingsGoal()">
         <div>
           <label for="savingsGoalPercentage">Savings Goal Percentage (%):</label>
           <input type="number" id="savingsGoalPercentage" formControlName="savingsGoalPercentage" required>
+          <div
+            *ngIf="savingsForm.controls['savingsGoalPercentage'].invalid && savingsForm.controls['savingsGoalPercentage'].touched"
+            class="text-danger">
+            <div *ngIf="savingsForm.controls['savingsGoalPercentage'].hasError('required')">Please enter a savings goal
+              percentage</div>
+            <div *ngIf="savingsForm.controls['savingsGoalPercentage'].value < 0">Savings goal percentage cannot be
+              negative</div>
+          </div>
         </div>
         <button type="submit">Set Savings Goal</button>
         <div *ngIf="savingsErrorMessage" class="error-message">{{ savingsErrorMessage }}</div>
       </form>
     </div>
-
-    <!-- Message after Savings Goal is set -->
     <div *ngIf="savingsSubmitted">
       <div class="success-message">{{ savingsSuccessMessage }}</div>
       <button (click)="onStart()">Go to the Dashboard</button>

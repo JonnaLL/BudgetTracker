@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BudgetService, Category } from '../../services/budget.service'; 
+import { BudgetService, Category } from '../../services/budget.service';
 import { AuthService } from '../../services/auth.service';
 import { Location } from '@angular/common';
 
@@ -45,26 +45,39 @@ export class AddExpenseComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.expenseForm.valid) {
-      const { amount, category } = this.expenseForm.value;
-      const userId = this.authService.getCurrentUserId();
-      if (userId !== null) {
-        this.budgetService.addExpense(amount, category, userId).subscribe(
-          (response) => {
-            this.successMessage = 'Expense added successfully!';
-            this.errorMessage = '';
-            this.expenseForm.reset();
-          },
-          (error) => {
-            this.errorMessage = 'Failed to add expense';
-            this.successMessage = '';
-            console.error('Error adding expense:', error);
-          }
-        );
-      } else {
-        this.errorMessage = 'User not authenticated';
-      }
+    if (this.expenseForm.invalid) {
+      this.markFormGroupTouched(this.expenseForm);
+      this.errorMessage = 'Please fill out the form correctly';
+      return;
     }
+
+    const { amount, category } = this.expenseForm.value;
+    const userId = this.authService.getCurrentUserId();
+    if (userId !== null) {
+      this.budgetService.addExpense(amount, category, userId).subscribe(
+        (response) => {
+          this.successMessage = 'Expense added successfully!';
+          this.errorMessage = '';
+          this.expenseForm.reset();
+        },
+        (error) => {
+          this.errorMessage = 'Failed to add expense';
+          this.successMessage = '';
+          console.error('Error adding expense:', error);
+        }
+      );
+    } else {
+      this.errorMessage = 'User not authenticated';
+    }
+  }
+
+  markFormGroupTouched(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      if (control) {
+        control.markAsTouched();
+      }
+    });
   }
 
   goBack() {
