@@ -18,7 +18,7 @@
         Please select a category
       </div>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="!expenseForm.valid">Add Expense</button>
+    <button type="submit" class="btn btn-primary">Add Expense</button>
   </form>
   <button type="button" class="btn btn-secondary mt-3" (click)="goBack()">Back</button>
   <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
@@ -46,4 +46,4 @@
       stores. Additionally, provide tips on how to save money while shopping, such as using coupons, buying in bulk, or
       waiting for sales.</p>
   </div>
-</div>
+  

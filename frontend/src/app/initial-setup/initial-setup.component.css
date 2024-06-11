@@ -102,3 +102,12 @@ button:hover {
   color: #a54c87;
 
 }
+alert-danger {
+  color: red;
+  margin-top: 10px;
+}
+
+.text-danger {
+  color: red;
+  font-size: 1em;
+}
