@@ -15,5 +15,6 @@ This is a simple Java application for managing a budget. People need to keep an 
 ## Technologies Used
 - **Java**
 - **Spring Boot: For building the application**
+- **Angular (CSS, HTML, TypeScript)**
 - **Git: For version control and collaboration**
 - **MySQL : For Database**
